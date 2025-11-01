@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Diagnosing Remote Outliers in California Housing Models — Te-Jou (Carol) Hou</title>
+  <meta name="description" content="How investigating AvgNeighborDistKm_20 revealed geographic outliers and improved model reliability."/>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+     /* =========================
+       Lavender Botanical Theme
+       （排版與文案不變）
+    ============================*/
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+
+    :root{
+      /* Palette */
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+      --lav-400:#AE9BDE; --lav-500:#9A86D6; --lav-600:#7C6BC8;
+      --sage-400:#ABCDBF;
+
+      --text-deep:#2C2A38; --text-muted:#6B6A74;
+
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+
+      --card:rgba(255,255,255,.84);     /* glassy card */
+      --card-border:#E8E2F3;
+
+      --pill-bg:#EFEAFA; --pill-text:#5E519D;
+
+      --brand:var(--lav-500);
+      --accent:#9A86D6; --accent-text:#ffffff;
+
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+
+      --code-bg:#0b1220; --code-text:#e5e7eb;
+    }
+
+    /* Auto dark */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --cream:#121219; --cream-2:#181826;
+        --bg:var(--cream); --text:#F4F1FF; --muted:#C6C3D6;
+
+        --card:rgba(28,28,44,.86);
+        --card-border:#2F2D43;
+
+        --pill-bg:#2B2940; --pill-text:#E4DEFF;
+
+        --brand:#B9ACF1;
+        --accent:#B9ACF1; --accent-text:#0F0E16;
+
+        --shadow:0 14px 34px rgba(0,0,0,.45);
+        --ring:0 0 0 6px rgba(185,172,241,.28);
+
+        --code-bg:#0a0f1a; --code-text:#e5e7eb;
+      }
+    }
+
+    /* Manual toggle */
+    html[data-theme="light"]{
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+      --card:rgba(255,255,255,.84); --card-border:#E8E2F3;
+      --pill-bg:#EFEAFA; --pill-text:#5E519D;
+      --brand:#9A86D6; --accent:#9A86D6; --accent-text:#fff;
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+      --code-bg:#0b1220; --code-text:#e5e7eb;
+    }
+    html[data-theme="dark"]{
+      --cream:#121219; --cream-2:#181826;
+      --bg:var(--cream); --text:#F4F1FF; --muted:#C6C3D6;
+      --card:rgba(28,28,44,.86); --card-border:#2F2D43;
+      --pill-bg:#2B2940; --pill-text:#E4DEFF;
+      --brand:#B9ACF1; --accent:#B9ACF1; --accent-text:#0F0E16;
+      --shadow:0 14px 34px rgba(0,0,0,.45);
+      --ring:0 0 0 6px rgba(185,172,241,.28);
+      --code-bg:#0a0f1a; --code-text:#e5e7eb;
+    }
+
+    /* ===== Base / Background with botanical watermark ===== */
+    body{
+      font-family:"Inter",ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text); line-height:1.7;
+      background-image:
+        radial-gradient(1100px 520px at 85% -10%, rgba(210,199,240,0.35), transparent 60%),
+        radial-gradient(900px 480px at -10% 12%, rgba(171,205,191,0.28), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      min-height:100svh; overflow-x:hidden; position:relative;
+    }
+    body::before, body::after{
+      content:""; position:fixed; z-index:-1; pointer-events:none;
+      width:48vw; height:48vw; background-repeat:no-repeat; background-size:contain;
+      opacity:.18; filter:blur(.1px);
+    }
+    /* 左下植物 */
+    body::before{
+      left:-6vw; bottom:-6vw; transform:rotate(2deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>\
+          <g fill='none' stroke='%239A86D6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M60 380 C 80 300, 120 200, 170 110'/>\
+            <path d='M90 360 C 120 290, 150 220, 200 140'/>\
+            <path d='M110 330 c 18 -22, 40 -32, 60 -12'/>\
+            <path d='M140 280 c 26 -20, 58 -28, 76 -6'/>\
+            <path d='M160 240 c 20 -18, 48 -22, 66 -2'/>\
+            <path d='M145 205 c 12 -16, 30 -22, 42 -8'/>\
+          </g>\
+        </svg>");
+    }
+    /* 右上植物 */
+    body::after{
+      right:-8vw; top:-8vw; opacity:.16; transform:rotate(-6deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 420'>\
+          <g fill='none' stroke='%2397BEAF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M340 10 C 320 120, 300 210, 280 410'/>\
+            <path d='M330 80 c -22 20 -40 22 -62 -4'/>\
+            <path d='M310 150 c -30 18 -52 16 -70 -10'/>\
+            <path d='M300 220 c -28 16 -50 14 -68 -10'/>\
+            <path d='M290 290 c -24 14 -46 12 -64 -12'/>\
+          </g>\
+        </svg>");
+    }
+
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{max-width:900px; margin:0 auto; padding:24px}
+    @media(min-width:1100px){ .container{max-width:1150px} }
+
+    /* ===== Header ===== */
+    header.site{display:flex; align-items:center; justify-content:space-between; padding:8px 0 20px}
+    .brand{display:inline-flex; align-items:center; gap:10px; font-weight:800}
+    .brand .logo{
+      width:26px; height:26px; border-radius:10px; display:grid; place-items:center; color:#fff;
+      background:linear-gradient(135deg, var(--lav-500), var(--sage-400));
+      box-shadow:0 6px 14px rgba(154,134,214,.25);
+    }
+    nav a{margin-left:18px; opacity:.9; position:relative; padding:6px 0}
+    nav a::after{
+      content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px;
+      background:linear-gradient(90deg, transparent, var(--lav-400), transparent);
+      transform:scaleX(0); transform-origin:center; transition:transform .25s ease;
+    }
+    nav a:hover{opacity:1}
+    nav a:hover::after{transform:scaleX(1)}
+    .theme-toggle{
+      border:1px solid var(--card-border); background:#fff7; border-radius:999px; padding:6px 10px; cursor:pointer; margin-left:12px;
+      box-shadow:var(--shadow); backdrop-filter:blur(6px)
+    }
+
+    /* ===== Post head ===== */
+    .post-head{margin-top:6px; margin-bottom:14px}
+    .post-kicker{
+      color:var(--brand); font-weight:800; letter-spacing:.3px; font-size:13px;
+      display:inline-flex; align-items:center; gap:6px;
+    }
+    .post-kicker::before,.post-kicker::after{
+      content:""; width:6px; height:6px; background:var(--brand); transform:rotate(45deg); display:inline-block; border-radius:2px; opacity:.95
+    }
+    .post-kicker::after{margin-left:2px}
+    .post-kicker::before{margin-right:2px}
+
+    .post-title{
+      font-family:"Playfair Display",ui-serif,Georgia,Times,serif;
+      font-size:clamp(30px,5vw,48px); line-height:1.15; margin:6px 0 8px; font-weight:800; letter-spacing:.2px;
+    }
+    .post-meta{color:var(--muted); font-size:14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .dot{width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.45;display:inline-block}
+
+    /* ===== Hero ===== */
+    .hero{margin:18px 0 12px; overflow:hidden; background:transparent; border-radius:14px}
+    .hero img{width:100%; height:100%; object-fit:cover; aspect-ratio:16/9; border-radius:14px; box-shadow:var(--shadow)}
+    .hero figcaption{color:var(--muted); font-size:12px; padding:8px 4px 0 4px}
+
+    /* ===== Layout: content + sidebar ===== */
+    .layout{display:grid; gap:26px; grid-template-columns: 1fr}
+    @media(min-width:1100px){ .layout{ grid-template-columns: minmax(0,1fr) 280px } }
+
+    /* ===== Prose ===== */
+    .prose{background:transparent; padding:0}
+    .prose p{margin:0 0 1em}
+    .prose h2{
+      margin:1.4em 0 .6em; font-size:clamp(22px,2.6vw,28px);
+      font-family:"Playfair Display",ui-serif,Georgia,Times,serif; letter-spacing:.2px;
+    }
+    .prose h3{
+      margin:1.2em 0 .4em; font-size:clamp(18px,2.2vw,22px);
+      font-family:"Playfair Display",ui-serif,Georgia,Times,serif;
+    }
+    .prose ul,.prose ol{margin:.7em 0 .7em 1.25em}
+    .prose li{margin:.4em 0}
+
+    .prose blockquote{
+      margin:1.2em 0; padding:14px 16px;
+      border-left:4px solid var(--brand);
+      background:rgba(154,134,214,.10); border-radius:12px
+    }
+    @media (prefers-color-scheme: dark){
+      .prose blockquote{ background:rgba(185,172,241,.14) }
+    }
+
+    .prose code{background:var(--pill-bg); color:var(--pill-text); padding:.15em .4em; border-radius:6px}
+    .prose pre{
+      background:var(--code-bg); color:var(--code-text);
+      padding:16px; border-radius:12px; overflow:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:13px; line-height:1.6; border:none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+    }
+    .prose a{color:var(--brand); text-decoration:underline; text-underline-offset:2px}
+    .prose img{border-radius:12px; box-shadow:var(--shadow); margin:10px 0}
+
+    /* ===== Sidebar ===== */
+    aside{ position:sticky; top:18px; height:max-content }
+    .card{
+      background:var(--card); border:1px solid var(--card-border); border-radius:16px;
+      box-shadow:var(--shadow); padding:16px; backdrop-filter:blur(6px)
+    }
+    .toc h4, .about h4{margin:0 0 8px; font-weight:800}
+    .toc ul{list-style:none; padding:0; margin:0; display:grid; gap:8px}
+    .toc a{color:var(--muted)}
+    .toc a:hover{color:var(--text)}
+    .about p{color:var(--muted); margin:0}
+
+    /* ===== Tags / Nav ===== */
+    .post-tags{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 4px; padding:0}
+    .tag{font-size:12px; padding:6px 10px; background:var(--pill-bg); color:var(--pill-text); border-radius:999px; border:1px solid rgba(154,134,214,.25)}
+    .post-nav{display:flex; justify-content:space-between; gap:12px; margin:18px 0 6px}
+    .post-nav a{
+      flex:1; text-align:center; background:var(--card); padding:12px; border-radius:12px; box-shadow:var(--shadow); font-weight:800;
+      border:1px solid var(--card-border)
+    }
+    .back{
+      display:inline-flex; align-items:center; gap:8px; margin-top:10px; color: var(--text);
+      font-weight: 800; text-decoration: none;
+    }
+    .back:link,.back:visited,.back:hover,.back:active{ text-decoration:none }
+
+    /* ===== Focus Ring ===== */
+    a:focus-visible, button:focus-visible{outline:none; box-shadow:var(--ring); border-radius:12px}
+
+    /* Dark background tune when forced */
+    @media (prefers-color-scheme: dark){
+      body{
+        background-image:
+          radial-gradient(1100px 520px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+          radial-gradient(900px 480px at -10% 12%, rgba(151,190,175,0.16), transparent 60%),
+          linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      }
+      body::before, body::after{ opacity:.10 }
+      .post-title{ color:#F4F1FF }
+    }
+    html[data-theme="dark"] body{
+      background-image:
+        radial-gradient(1100px 520px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+        radial-gradient(900px 480px at -10% 12%, rgba(151,190,175,0.16), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    }
+    html[data-theme="dark"] body::before,
+    html[data-theme="dark"] body::after{ opacity:.10 }
+
+    /* === Code block styling (light background) === */
+      pre, code {
+        background-color: #f8f9fa !important;  /* 柔和白底 */
+        color: #1e293b;                        /* 深藍灰文字 (可讀性高) */
+        border-radius: 8px;
+        font-family: 'Fira Code', 'Consolas', monospace;
+      }
+
+      pre {
+        padding: 12px 16px;
+        overflow-x: auto;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+
+      code {
+        padding: 2px 4px;
+      }
+
+      /* Inline code (單行) 顏色稍微區分 */
+      p code, li code {
+        background-color: #f1f5f9;
+        color: #1e293b;
+      }
+
+      /* 調整深色模式下自動反轉顏色 */
+      [data-theme='dark'] pre, 
+      [data-theme='dark'] code {
+        background-color: #1e293b !important;
+        color: #e2e8f0;
+        border-color: #334155;
+      }
+
+      table.model-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 12px 0;
+          font-size: 15px;
+        }
+        .model-table th {
+          text-align: left;
+          padding: 8px 10px;
+          border-bottom: 2px solid #e2e8f0;
+          color: #1e293b;
+        }
+        .model-table td {
+          padding: 8px 10px;
+          border-bottom: 1px solid #e2e8f0;
+          vertical-align: top;
+        }
+        [data-theme='dark'] .model-table th,
+        [data-theme='dark'] .model-table td {
+          border-color: #334155;
+          color: #e2e8f0;
+        }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <!-- Site header -->
+    <header class="site">
+      <div class="brand">
+        <!-- ✅ 新 Logo：Carol Hou（SVG 版） -->
+        <a href="/" class="brand" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+          <svg width="180" height="50" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .logo-text {
+                font-family: 'Parisienne', cursive;
+                fill: #9179f3; /* Lavender */
+                font-size: 40px;
+                paint-order: stroke;
+                stroke: #D8CBA8;        /* Soft Gold outline */
+                stroke-width: 0.3px;
+                filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.08));
+              }
+            </style>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="logo-text">
+              Te-Jou Hou
+            </text>
+          </svg>
+        </a>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="../about.html">About Me</a>
+          <a href="../projects.html">Projects</a>
+          <a href="../blog.html">Blogs</a>
+          <a href="../contact.html">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">🌓</button>
+      </div>
+    </header>
+
+    <!-- Post head -->
+    <section class="post-head">
+      <div class="post-kicker">Blog</div>
+      <h1 class="post-title">Diagnosing Remote Outliers in California Housing Models</h1>
+      <div class="post-meta">
+        <span>By <strong>Te-Jou (Carol) Hou</strong></span>
+        <span class="dot"></span>
+        <time datetime="2025-10-29">29 Oct 2025</time>
+        <span class="dot"></span>
+        <span>8 min read</span>
+      </div>
+    </section>
+
+    <!-- Hero -->
+    <figure class="hero">
+      <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1400&q=80"
+           alt="California aerial landscape with coastline and hills">
+      <figcaption>Understanding how remote geographic outliers affect predictive modeling.</figcaption>
+    </figure>
+
+    <!-- Layout: content + sidebar -->
+    <div class="layout">
+      <!-- Main content -->
+      <article class="prose" id="post-content">
+        <p>During model validation, my advisor suggested verifying whether the <code>AvgNeighborDistKm_20</code> — the average distance used to compute <code>MeanNeighborPrice_20</code>, one of the key spatial features — differed significantly between the training and testing sets.</p>
+
+        <h2 id="problem-discovery">1) Problem Discovery</h2>
+        <p>To investigate, I wrote a diagnostic function to summarize and visualize the distribution of <code>AvgNeighborDistKm_20</code> for both datasets:</p>
+
+<pre><code>def summarize_and_plot_neighbor_dist(df, name):
+    col = "AvgNeighborDistKm_20"
+    print(df[col].describe(percentiles=[0.25, 0.5, 0.75, 0.9, 0.95]))
+
+    plt.figure(figsize=(8,5))
+    sns.histplot(df[col], kde=True, bins=40, color="steelblue")
+    plt.title(f"{name} — Distribution of {col}")
+    plt.show()
+
+    city_avg = df.groupby("City")[col].mean().sort_values(ascending=False).head(20)
+    sns.barplot(x=city_avg.values, y=city_avg.index, palette="viridis")
+    plt.title(f"{name} — Avg Neighbor Distance by City (Top 20)")
+    plt.show()
+</code></pre>
+
+        <h2 id="visualization-results">2) Visualization Results</h2>
+        <p><strong>Training Set</strong></p>
+        <img src="../images/posts/train_distribution.png" alt="Train Distribution">
+        <img src="../images/posts/train_top_20_cities.png" alt="Train Top 20 Cities">
+
+        <p><strong>Testing Set</strong></p>
+        <img src="../images/posts/test_distribution.png" alt="Test Distribution">
+        <img src="../images/posts/test_top_20_cities.png" alt="Test Top 20 Cities">
+
+        <p>Both datasets showed similar distributions (median ≈ 0.6 km, 95th percentile ≈ 2 km), but a few extreme values exceeded 100 km — clearly outliers from isolated regions in California.</p>
+
+        <h2 id="findings">3) Findings & Root Causes</h2>
+
+        <h3>(1) Inconsistent Location Records</h3>
+        <p>After cross-checking, I found that some records had inconsistent <code>City</code>, <code>State or Province</code>, and coordinates — likely due to different data entry standards. Because my model is specifically designed to predict <strong>California housing prices</strong>, I removed all samples that were not within California’s geographic boundary.</p>
+
+<pre><code># Filter samples by latitude/longitude boundaries of California
+ def filter_by_ca_latlon(df: pd.DataFrame,
+                         lat_col: str = "Latitude",
+                         lon_col: str = "Longitude") -> pd.DataFrame:
+     """
+     Keep only rows whose coordinates fall within California’s bounding box:
+     latitude 32–42 and longitude −125 to −114 (inclusive).
+     """
+     out = df.copy()
+     lat = pd.to_numeric(out.get(lat_col), errors="coerce")
+     lon = pd.to_numeric(out.get(lon_col), errors="coerce")
+     mask = lat.between(32, 42) & lon.between(-125, -114)
+     kept = int(mask.sum())
+     removed = len(out) - kept
+     print(f"CA lat/lon filter -> kept {kept:,}, removed {removed:,}")
+     return out.loc[mask].copy()
+
+ train_df = filter_by_ca_latlon(train_df)
+ test_df = filter_by_ca_latlon(test_df)
+</code></pre>
+
+        <h3>(2) Model Weakness in Remote Areas</h3>
+<pre><code>🏔 Remote Area: R2 = 0.71, MAPE = 28.16%, RMSE = 301K
+🏙 Non-Remote Area: R2 = 0.68, MAPE = 11.93%, RMSE = 1.01M
+📦 Remote Test: R2 = 0.19, MAPE = 30.99%, RMSE = 375K
+</code></pre>
+        <p>Although remote samples made up less than 1% of the dataset, their prediction errors were <strong>three times higher</strong> than those of urban areas.</p>
+
+        <h2 id="solution">4) Attempted Solution: Split Modeling</h2>
+        <p>To address this, I designed a <strong>dual-model pipeline (v3)</strong>:</p>
+        <table class="model-table">
+          <tr>
+            <th>Region Type</th>
+            <th>Model Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>🏙️ Non-Remote</td>
+            <td>CatBoost</td>
+            <td>Main model</td>
+          </tr>
+          <tr>
+            <td>🏔️ Remote</td>
+            <td>Hierarchical Median Baseline Fallback</td>
+            <td>City → County → ZIP → Global</td>
+          </tr>
+        </table>
+
+<pre><code>🏔 Remote: R2 = -0.18, MAPE = 45.8%
+🏙 Non-Remote: R2 = 0.87, MAPE = 11.2%
+Test remote size: 61 / 11339
+</code></pre>
+        <p>However, due to the extremely small number of remote samples, the baseline model performed worse. A separate model was not statistically sustainable.</p>
+
+        <h2 id="final">5) Final Decision & Model v2.1</h2>
+        <p>I reverted to my v2 model but enhanced preprocessing with new cleaning and filtering steps:</p>
+        <ul>
+          <li>✅ <code>filter_by_ca_latlon</code> to remove non-CA samples</li>
+          <li>✅ Added <code>AvgNeighborDistKm_20</code> as a diagnostic control variable</li>
+          <li>✅ Excluded “Outside Area (Outside Ca)” and “Outside Area (Outside U.S.)” records</li>
+        </ul>
+
+<pre><code>🏔 Remote Area: R2 = 0.55, MAPE = 32.1%, RMSE = 266K
+🏙 Non-Remote Area: R2 = 0.75, MAPE = 11.5%, RMSE = 822K
+📊 Remote share: 124 / 17,301
+📦 Remote Test: R2 = 0.39, MAPE = 27.1%, RMSE = 327K
+</code></pre>
+
+        <h2 id="insights">6) Reflections & Insights</h2>
+        <ul>
+          <li>Remote samples (&lt;1%) represent genuine outliers in low-density mountain, desert, or island regions.</li>
+          <li>The model remains robust for 99% of the California market (R² ≈ 0.75). Errors stem from sparse density rather than model flaws.</li>
+          <li>Future work:
+            <ul>
+              <li>Add a binary <code>IsRemote</code> feature to let the model learn spatial variance.</li>
+              <li>Augment remote samples or introduce regional median fallback.</li>
+              <li>Incorporate geographic context features (elevation, nearest city distance, etc.).</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h2 id="takeaway">💡 Takeaway</h2>
+        <p>This case reminded me that <strong>outliers reveal a model’s true limits</strong>. Understanding where and why a model fails is as important as improving its score. Through this process, I learned to balance data cleaning, geographic logic, and model generalization in real-world predictive modeling.</p>
+
+        <!-- Tags -->
+        <ul class="post-tags">
+          <li class="tag">Data Cleaning</li>
+          <li class="tag">Model Diagnostics</li>
+          <li class="tag">Geospatial ML</li>
+          <li class="tag">CatBoost</li>
+        </ul>
+
+        <a class="back" href="../blog.html">← Back to Blog</a>
+      </article>
+
+      <!-- Sidebar -->
+      <aside>
+        <div class="card toc" id="toc">
+          <h4>On this page</h4>
+          <ul></ul>
+        </div>
+      </aside>
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+      <a href="gtc2025-student-experience.html">← Previous: From Insight to Action: Lessons from NVIDIA GTC 2025 Student Experience</a>
+      <!-- <a href="post-next.html">Next: Building a Dual-Model Architecture →</a>-->
+    </nav>
+
+    <footer style="color:var(--muted); text-align:center; font-size:13px; padding:28px 0 8px">
+      © <span id="year"></span> Te-Jou (Carol) Hou — Blog
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('themeBtn').addEventListener('click',()=>{
+      const html=document.documentElement;
+      const next=html.getAttribute('data-theme')==='dark'?'light'
+               : html.getAttribute('data-theme')==='light'?null:'dark';
+      if(next){ html.setAttribute('data-theme',next) } else { html.removeAttribute('data-theme') }
+    });
+    (function buildTOC(){
+      const content=document.getElementById('post-content');
+      const toc=document.querySelector('#toc ul');
+      if(!content||!toc) return;
+      const headings=[...content.querySelectorAll('h2, h3')];
+      headings.forEach(h=>{
+        if(!h.id){ h.id=h.textContent.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^\w-]/g,''); }
+        const li=document.createElement('li');
+        const a=document.createElement('a');
+        a.href='#'+h.id; a.textContent=h.textContent;
+        if(h.tagName==='H3'){ li.style.paddingLeft='12px'; }
+        li.appendChild(a); toc.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>

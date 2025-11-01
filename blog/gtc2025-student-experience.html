@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>From Insight to Action: Lessons from NVIDIA GTC 2025 Student Experience — Te-Jou (Carol) Hou</title>
+  <meta name="description" content="Reflections and lessons learned from attending NVIDIA GTC 2025 Student Experience."/>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+
+  <!-- 保留你原本的 style 全段 -->
+  <style>
+     /* =========================
+       Lavender Botanical Theme
+       （排版與文案不變）
+    ============================*/
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+
+    :root{
+      /* Palette */
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+      --lav-400:#AE9BDE; --lav-500:#9A86D6; --lav-600:#7C6BC8;
+      --sage-400:#ABCDBF;
+
+      --text-deep:#2C2A38; --text-muted:#6B6A74;
+
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+
+      --card:rgba(255,255,255,.84);     /* glassy card */
+      --card-border:#E8E2F3;
+
+      --pill-bg:#EFEAFA; --pill-text:#5E519D;
+
+      --brand:var(--lav-500);
+      --accent:#9A86D6; --accent-text:#ffffff;
+
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+
+      --code-bg:#0b1220; --code-text:#e5e7eb;
+    }
+
+    /* Auto dark */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --cream:#121219; --cream-2:#181826;
+        --bg:var(--cream); --text:#F4F1FF; --muted:#C6C3D6;
+
+        --card:rgba(28,28,44,.86);
+        --card-border:#2F2D43;
+
+        --pill-bg:#2B2940; --pill-text:#E4DEFF;
+
+        --brand:#B9ACF1;
+        --accent:#B9ACF1; --accent-text:#0F0E16;
+
+        --shadow:0 14px 34px rgba(0,0,0,.45);
+        --ring:0 0 0 6px rgba(185,172,241,.28);
+
+        --code-bg:#0a0f1a; --code-text:#e5e7eb;
+      }
+    }
+
+    /* Manual toggle */
+    html[data-theme="light"]{
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+      --card:rgba(255,255,255,.84); --card-border:#E8E2F3;
+      --pill-bg:#EFEAFA; --pill-text:#5E519D;
+      --brand:#9A86D6; --accent:#9A86D6; --accent-text:#fff;
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+      --code-bg:#0b1220; --code-text:#e5e7eb;
+    }
+    html[data-theme="dark"]{
+      --cream:#121219; --cream-2:#181826;
+      --bg:var(--cream); --text:#F4F1FF; --muted:#C6C3D6;
+      --card:rgba(28,28,44,.86); --card-border:#2F2D43;
+      --pill-bg:#2B2940; --pill-text:#E4DEFF;
+      --brand:#B9ACF1; --accent:#B9ACF1; --accent-text:#0F0E16;
+      --shadow:0 14px 34px rgba(0,0,0,.45);
+      --ring:0 0 0 6px rgba(185,172,241,.28);
+      --code-bg:#0a0f1a; --code-text:#e5e7eb;
+    }
+
+    /* ===== Base / Background with botanical watermark ===== */
+    body{
+      font-family:"Inter",ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text); line-height:1.7;
+      background-image:
+        radial-gradient(1100px 520px at 85% -10%, rgba(210,199,240,0.35), transparent 60%),
+        radial-gradient(900px 480px at -10% 12%, rgba(171,205,191,0.28), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      min-height:100svh; overflow-x:hidden; position:relative;
+    }
+    body::before, body::after{
+      content:""; position:fixed; z-index:-1; pointer-events:none;
+      width:48vw; height:48vw; background-repeat:no-repeat; background-size:contain;
+      opacity:.18; filter:blur(.1px);
+    }
+    /* 左下植物 */
+    body::before{
+      left:-6vw; bottom:-6vw; transform:rotate(2deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>\
+          <g fill='none' stroke='%239A86D6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M60 380 C 80 300, 120 200, 170 110'/>\
+            <path d='M90 360 C 120 290, 150 220, 200 140'/>\
+            <path d='M110 330 c 18 -22, 40 -32, 60 -12'/>\
+            <path d='M140 280 c 26 -20, 58 -28, 76 -6'/>\
+            <path d='M160 240 c 20 -18, 48 -22, 66 -2'/>\
+            <path d='M145 205 c 12 -16, 30 -22, 42 -8'/>\
+          </g>\
+        </svg>");
+    }
+    /* 右上植物 */
+    body::after{
+      right:-8vw; top:-8vw; opacity:.16; transform:rotate(-6deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 420'>\
+          <g fill='none' stroke='%2397BEAF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M340 10 C 320 120, 300 210, 280 410'/>\
+            <path d='M330 80 c -22 20 -40 22 -62 -4'/>\
+            <path d='M310 150 c -30 18 -52 16 -70 -10'/>\
+            <path d='M300 220 c -28 16 -50 14 -68 -10'/>\
+            <path d='M290 290 c -24 14 -46 12 -64 -12'/>\
+          </g>\
+        </svg>");
+    }
+
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{max-width:900px; margin:0 auto; padding:24px}
+    @media(min-width:1100px){ .container{max-width:1150px} }
+
+    /* ===== Header ===== */
+    header.site{display:flex; align-items:center; justify-content:space-between; padding:8px 0 20px}
+    .brand{display:inline-flex; align-items:center; gap:10px; font-weight:800}
+    .brand .logo{
+      width:26px; height:26px; border-radius:10px; display:grid; place-items:center; color:#fff;
+      background:linear-gradient(135deg, var(--lav-500), var(--sage-400));
+      box-shadow:0 6px 14px rgba(154,134,214,.25);
+    }
+    nav a{margin-left:18px; opacity:.9; position:relative; padding:6px 0}
+    nav a::after{
+      content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px;
+      background:linear-gradient(90deg, transparent, var(--lav-400), transparent);
+      transform:scaleX(0); transform-origin:center; transition:transform .25s ease;
+    }
+    nav a:hover{opacity:1}
+    nav a:hover::after{transform:scaleX(1)}
+    .theme-toggle{
+      border:1px solid var(--card-border); background:#fff7; border-radius:999px; padding:6px 10px; cursor:pointer; margin-left:12px;
+      box-shadow:var(--shadow); backdrop-filter:blur(6px)
+    }
+
+    /* ===== Post head ===== */
+    .post-head{margin-top:6px; margin-bottom:14px}
+    .post-kicker{
+      color:var(--brand); font-weight:800; letter-spacing:.3px; font-size:13px;
+      display:inline-flex; align-items:center; gap:6px;
+    }
+    .post-kicker::before,.post-kicker::after{
+      content:""; width:6px; height:6px; background:var(--brand); transform:rotate(45deg); display:inline-block; border-radius:2px; opacity:.95
+    }
+    .post-kicker::after{margin-left:2px}
+    .post-kicker::before{margin-right:2px}
+
+    .post-title{
+      font-family:"Playfair Display",ui-serif,Georgia,Times,serif;
+      font-size:clamp(30px,5vw,48px); line-height:1.15; margin:6px 0 8px; font-weight:800; letter-spacing:.2px;
+    }
+    .post-meta{color:var(--muted); font-size:14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+    .dot{width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.45;display:inline-block}
+
+    /* ===== Hero ===== */
+    .hero{margin:18px 0 12px; overflow:hidden; background:transparent; border-radius:14px}
+    .hero img{width:100%; height:100%; object-fit:cover; aspect-ratio:16/9; border-radius:14px; box-shadow:var(--shadow)}
+    .hero figcaption{color:var(--muted); font-size:12px; padding:8px 4px 0 4px}
+
+    /* ===== Layout: content + sidebar ===== */
+    .layout{display:grid; gap:26px; grid-template-columns: 1fr}
+    @media(min-width:1100px){ .layout{ grid-template-columns: minmax(0,1fr) 280px } }
+
+    /* ===== Prose ===== */
+    .prose{background:transparent; padding:0}
+    .prose p{margin:0 0 1em}
+    .prose h2{
+      margin:1.4em 0 .6em; font-size:clamp(22px,2.6vw,28px);
+      font-family:"Playfair Display",ui-serif,Georgia,Times,serif; letter-spacing:.2px;
+    }
+    .prose h3{
+      margin:1.2em 0 .4em; font-size:clamp(18px,2.2vw,22px);
+      font-family:"Playfair Display",ui-serif,Georgia,Times,serif;
+    }
+    .prose ul,.prose ol{margin:.7em 0 .7em 1.25em}
+    .prose li{margin:.4em 0}
+
+    .prose blockquote{
+      margin:1.2em 0; padding:14px 16px;
+      border-left:4px solid var(--brand);
+      background:rgba(154,134,214,.10); border-radius:12px
+    }
+    @media (prefers-color-scheme: dark){
+      .prose blockquote{ background:rgba(185,172,241,.14) }
+    }
+
+    .prose code{background:var(--pill-bg); color:var(--pill-text); padding:.15em .4em; border-radius:6px}
+    .prose pre{
+      background:var(--code-bg); color:var(--code-text);
+      padding:16px; border-radius:12px; overflow:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:13px; line-height:1.6; border:none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+    }
+    .prose a{color:var(--brand); text-decoration:underline; text-underline-offset:2px}
+    .prose img{border-radius:12px; box-shadow:var(--shadow); margin:10px 0}
+
+    /* ===== Sidebar ===== */
+    aside{ position:sticky; top:18px; height:max-content }
+    .card{
+      background:var(--card); border:1px solid var(--card-border); border-radius:16px;
+      box-shadow:var(--shadow); padding:16px; backdrop-filter:blur(6px)
+    }
+    .toc h4, .about h4{margin:0 0 8px; font-weight:800}
+    .toc ul{list-style:none; padding:0; margin:0; display:grid; gap:8px}
+    .toc a{color:var(--muted)}
+    .toc a:hover{color:var(--text)}
+    .about p{color:var(--muted); margin:0}
+
+    /* ===== Tags / Nav ===== */
+    .post-tags{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 4px; padding:0}
+    .tag{font-size:12px; padding:6px 10px; background:var(--pill-bg); color:var(--pill-text); border-radius:999px; border:1px solid rgba(154,134,214,.25)}
+    .post-nav{display:flex; justify-content:space-between; gap:12px; margin:18px 0 6px}
+    .post-nav a{
+      flex:1; text-align:center; background:var(--card); padding:12px; border-radius:12px; box-shadow:var(--shadow); font-weight:800;
+      border:1px solid var(--card-border)
+    }
+    .back{
+      display:inline-flex; align-items:center; gap:8px; margin-top:10px; color: var(--text);
+      font-weight: 800; text-decoration: none;
+    }
+    .back:link,.back:visited,.back:hover,.back:active{ text-decoration:none }
+
+    /* ===== Focus Ring ===== */
+    a:focus-visible, button:focus-visible{outline:none; box-shadow:var(--ring); border-radius:12px}
+
+    /* Dark background tune when forced */
+    @media (prefers-color-scheme: dark){
+      body{
+        background-image:
+          radial-gradient(1100px 520px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+          radial-gradient(900px 480px at -10% 12%, rgba(151,190,175,0.16), transparent 60%),
+          linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      }
+      body::before, body::after{ opacity:.10 }
+      .post-title{ color:#F4F1FF }
+    }
+    html[data-theme="dark"] body{
+      background-image:
+        radial-gradient(1100px 520px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+        radial-gradient(900px 480px at -10% 12%, rgba(151,190,175,0.16), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    }
+    html[data-theme="dark"] body::before,
+    html[data-theme="dark"] body::after{ opacity:.10 }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Site header -->
+    <header class="site">
+      <div class="brand">
+        <!-- ✅ 新 Logo：Carol Hou（SVG 版） -->
+        <a href="/" class="brand" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+          <svg width="180" height="50" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .logo-text {
+                font-family: 'Parisienne', cursive;
+                fill: #9179f3; /* Lavender */
+                font-size: 40px;
+                paint-order: stroke;
+                stroke: #D8CBA8;        /* Soft Gold outline */
+                stroke-width: 0.3px;
+                filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.08));
+              }
+            </style>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="logo-text">
+              Te-Jou Hou
+            </text>
+          </svg>
+        </a>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="../about.html">About Me</a>
+          <a href="../projects.html">Projects</a>
+          <a href="../blog.html">Blogs</a>
+          <a href="../contact.html">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">🌓</button>
+      </div>
+    </header>
+
+    <!-- Post head -->
+    <section class="post-head">
+      <div class="post-kicker">Blog</div>
+      <h1 class="post-title">From Insight to Action: Lessons from NVIDIA GTC 2025 Student Experience</h1>
+      <div class="post-meta">
+        <span>By <strong>Te-Jou (Carol) Hou</strong></span>
+        <span class="dot"></span>
+        <time datetime="2025-10-28">28 October 2025</time>
+        <span class="dot"></span>
+        <span>7 min read</span>
+      </div>
+    </section>
+
+    <!-- Hero -->
+    <figure class="hero">
+      <img src="../images/posts/gtc2025-me.jpeg" alt="Carol at NVIDIA GTC 2025 Student Experience">
+      <figcaption>NVIDIA GTC 2025 Student Experience — Washington DC</figcaption>
+    </figure>
+
+    <!-- Layout -->
+    <div class="layout">
+      <!-- Main content -->
+      <article class="prose" id="post-content">
+
+        <p>On October 28, I joined the <strong>NVIDIA GTC 2025 Student Experience</strong>, a full-day event that brought together students, alumni, and professionals passionate about AI and data science. From the moment the doors opened, it felt like stepping into the future of technology — where every conversation, every panel, and every idea revolved around one core theme: <strong>how to build a meaningful career in the AI era.</strong></p>
+
+        <h2>Learning from Alumni and Experts — What Truly Matters</h2>
+        <figure><img src="../images/posts/gtc2025-panel-1.jpeg" alt="Panel introduction at GTC Student Experience"></figure>
+
+        <p>During sessions like <em>“Doors Open and Networking Breakfast with Alumni,” “Resume and GitHub Reviews,”</em> and the <em>“How to Accelerate Your Career in AI Tech and Analytics”</em> panel, I was surrounded by brilliant alumni who generously shared their career journeys and insights. What struck me most was their clarity — not only about their technical growth but also about <strong>how they think</strong>. They reminded us that succeeding in AI isn’t just about mastering models; it’s about <strong>understanding people and purpose</strong>.</p>
+
+        <p>One of the most inspiring ideas I heard was this: <strong>before taking any action, pause and ask — who are you trying to help, who makes the final decision, and what do they truly want?</strong> It reminded me that leveraging AI effectively starts with empathy and strategy. Whether it’s your manager, your client, or your end user, understanding what they truly need allows us to use AI not as a threat, but as a partner — a tool to deliver real value faster and more intelligently.</p>
+
+        <p>Another profound idea was about <strong>critical thinking in the age of AI</strong>: before trusting an AI-generated idea or solution, identify the assumptions behind it — then test and validate those assumptions. That’s how real innovation happens: not by accepting outputs blindly, but by designing thoughtful experiments to verify them.</p>
+
+        <figure><img src="../images/posts/gtc2025-panel-2.jpeg" alt="How to Accelerate Your Career in AI Tech and Analytics panel at GTC 2025"></figure>
+
+        <h2>Keynote with Jensen Huang — Vision and Gratitude</h2>
+        <figure><img src="../images/posts/gtc2025-keynote.jpeg" alt="NVIDIA CEO Jensen Huang delivering keynote at GTC 2025"></figure>
+
+        <p>Later, during the <em>GTC keynote livestream with Jensen Huang, CEO of NVIDIA</em>, I was deeply impressed by his discussion on the shift from <em>AI for RAM</em> to <em>AI on RAM</em>. Hearing how NVIDIA is turning this concept into reality made me appreciate the immense engineering effort and innovation behind the AI systems we use every day.</p>
+
+        <p>While we often focus on how AI benefits us, this moment reminded me of the countless teams and companies building the invisible infrastructure that powers our digital world. I felt a genuine sense of gratitude — and also a spark of ambition: someday, I want to contribute to that ecosystem.</p>
+
+        <h2>Turning Insights into Action — My Next Steps</h2>
+        <p>Inspired by these sessions, I’m now revisiting my <strong>resume</strong> and <strong>side projects</strong> to reflect what hiring managers truly care about:</p>
+        <ul>
+          <li>How I identify a <em>business problem</em></li>
+          <li>How I use <em>AI to solve</em> that problem</li>
+          <li>My <em>critical thinking process</em> — breaking challenges into smaller, solvable parts</li>
+          <li>My <em>storytelling ability</em> — communicating not just what I did, but how it brings value to a company</li>
+        </ul>
+
+        <p>I’m also analyzing my strengths and opportunities to position myself effectively in the AI job market — combining technical growth with strategic communication and problem-solving skills.</p>
+
+        <h2>Closing Thoughts — A Vision for the Future</h2>
+        <p>Attending NVIDIA GTC 2025 was more than a one-day event — it was a turning point. It reminded me that AI isn’t replacing people who think; it’s <strong>empowering those who think critically, creatively, and purposefully.</strong> I left the event not only inspired but equipped — ready to take concrete steps toward becoming one of the contributors driving the next generation of AI innovation.</p>
+
+        <ul class="post-tags">
+          <li class="tag">AI Career</li>
+          <li class="tag">NVIDIA GTC 2025</li>
+          <li class="tag">Reflection</li>
+        </ul>
+
+        <a class="back" href="../blog.html">← Back to Blog</a>
+      </article>
+
+      <!-- Sidebar -->
+      <aside>
+        <div class="card toc" id="toc">
+          <h4>On this page</h4>
+          <ul></ul>
+        </div>
+      </aside>
+    </div>
+
+    <nav class="post-nav" aria-label="Post navigation">
+      <!-- <a href="post-prev.html">← Previous: Building Trust in AI Systems</a>-->
+     <a href="diagnosing-remote-outliers.html">Next: Diagnosing Remote Outliers in California Housing Models →</a>
+    </nav>
+
+    <footer style="color:var(--muted);text-align:center;font-size:13px;padding:28px 0 8px">
+      © <span id="year"></span> Te-Jou (Carol) Hou — Blog
+    </footer>
+  </div>
+
+  <!-- 你的主題切換與 TOC 腳本照原樣保留 -->
+  <script>
+    document.getElementById('year').textContent=new Date().getFullYear();
+    document.getElementById('themeBtn').addEventListener('click',()=>{
+      const html=document.documentElement;
+      const next=html.getAttribute('data-theme')==='dark'?'light'
+                :html.getAttribute('data-theme')==='light'?null:'dark';
+      if(next){html.setAttribute('data-theme',next)}else{html.removeAttribute('data-theme')}
+    });
+    (function buildTOC(){
+      const c=document.getElementById('post-content');const toc=document.querySelector('#toc ul');
+      if(!c||!toc)return;
+      const hs=[...c.querySelectorAll('h2,h3')];
+      hs.forEach(h=>{
+        if(!h.id){h.id=h.textContent.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^\w-]/g,'');}
+        const li=document.createElement('li');const a=document.createElement('a');
+        a.href='#'+h.id;a.textContent=h.textContent;
+        if(h.tagName==='H3'){li.style.paddingLeft='12px';}
+        li.appendChild(a);toc.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>
