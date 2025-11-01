@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Contact — Your Name</title>
+  <meta name="description" content="Get in touch for opportunities, collaborations, and speaking."/>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* =========================
+       Lavender Botanical Theme
+       （排版與文案維持不變）
+    ============================*/
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+
+    :root{
+      /* Cream base + Lavender + Sage */
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+
+      --lav-50:#F2EDF9; --lav-100:#E5DBF3; --lav-200:#D5C7EE;
+      --lav-300:#C3B2E7; --lav-400:#AE9BDE; --lav-500:#9A86D6; --lav-600:#7C6BC8;
+
+      --sage-300:#C1DBD0; --sage-400:#ABCDBF;
+
+      --text-deep:#2C2A38; --text-muted:#6B6A74;
+
+      --card:#FFFFFFCC;         /* 半透明玻璃感 */
+      --card-border:#E8E2F3;
+
+      --pill-bg:#EFEAFA; --pill-text:#5E519D;
+
+      --accent:#9A86D6; --accent-text:#ffffff; --accent-hover:#A996DC;
+
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+
+      /* 與原檔 token 對齊 */
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+      --brand:var(--lav-500); --brand2:#f59e0b;
+      --ok:#16a34a; --warn:#ea580c;
+    }
+
+    /* 自動深色 */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --cream:#121219; --cream-2:#181826;
+        --bg:var(--cream);
+        --text:#F4F1FF; --muted:#C6C3D6;
+
+        --card:rgba(28,28,44,.86);
+        --card-border:#2F2D43;
+
+        --pill-bg:#2B2940; --pill-text:#E4DEFF;
+
+        --accent:#B9ACF1; --accent-text:#0F0E16; --accent-hover:#C6BBF4;
+
+        --ring:0 0 0 6px rgba(185,172,241,.28);
+        --shadow:0 14px 34px rgba(0,0,0,.45);
+      }
+    }
+
+    /* 手動切換（🌓） */
+    html[data-theme="light"]{
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+      --card:#FFFFFFCC; --card-border:#E8E2F3;
+      --pill-bg:#EFEAFA; --pill-text:#5E519D;
+      --accent:#9A86D6; --accent-text:#ffffff; --accent-hover:#A996DC;
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+    }
+    html[data-theme="dark"]{
+      --cream:#121219; --cream-2:#181826;
+      --bg:var(--cream); --text:#F4F1FF; --muted:#C6C3D6;
+      --card:rgba(28,28,44,.86); --card-border:#2F2D43;
+      --pill-bg:#2B2940; --pill-text:#E4DEFF;
+      --accent:#B9ACF1; --accent-text:#0F0E16; --accent-hover:#C6BBF4;
+      --ring:0 0 0 6px rgba(185,172,241,.28);
+      --shadow:0 14px 34px rgba(0,0,0,.45);
+    }
+
+    /* ===== Base / Background ===== */
+    body{
+      font-family:"Inter",ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text); line-height:1.65;
+      background-image:
+        radial-gradient(1200px 600px at 85% -10%, rgba(210,199,240,0.35), transparent 60%),
+        radial-gradient(900px 500px at -10% 15%, rgba(171,205,191,0.28), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      min-height:100svh; overflow-x:hidden; position:relative;
+    }
+    /* 植物線條水印（內嵌SVG，純CSS+SVG） */
+    body::before, body::after{
+      content:""; position:fixed; z-index:-1; pointer-events:none;
+      width:48vw; height:48vw; background-repeat:no-repeat; background-size:contain;
+      opacity:.18; filter:blur(.1px);
+    }
+    body::before{
+      left:-6vw; bottom:-6vw; transform:rotate(2deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>\
+          <g fill='none' stroke='%239A86D6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M60 380 C 80 300, 120 200, 170 110'/>\
+            <path d='M90 360 C 120 290, 150 220, 200 140'/>\
+            <path d='M110 330 c 18 -22, 40 -32, 60 -12'/>\
+            <path d='M140 280 c 26 -20, 58 -28, 76 -6'/>\
+            <path d='M160 240 c 20 -18, 48 -22, 66 -2'/>\
+            <path d='M145 205 c 12 -16, 30 -22, 42 -8'/>\
+          </g>\
+        </svg>");
+    }
+    body::after{
+      right:-8vw; top:-8vw; opacity:.16; transform:rotate(-6deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 420'>\
+          <g fill='none' stroke='%2397BEAF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M340 10 C 320 120, 300 210, 280 410'/>\
+            <path d='M330 80 c -22 20 -40 22 -62 -4'/>\
+            <path d='M310 150 c -30 18 -52 16 -70 -10'/>\
+            <path d='M300 220 c -28 16 -50 14 -68 -10'/>\
+            <path d='M290 290 c -24 14 -46 12 -64 -12'/>\
+          </g>\
+        </svg>");
+    }
+
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{max-width:1150px; margin:0 auto; padding:24px}
+
+    /* ===== Header ===== */
+    header{display:flex; align-items:center; justify-content:space-between; padding:8px 0 20px}
+    .brand{display:inline-flex; align-items:center; gap:10px; font-weight:800}
+    .brand .logo{
+      width:26px; height:26px; border-radius:10px; display:grid; place-items:center; color:#fff;
+      background:linear-gradient(135deg, var(--lav-500), var(--sage-400));
+      box-shadow:0 6px 14px rgba(154,134,214,.25);
+    }
+    nav a{margin-left:18px; opacity:.9; position:relative; padding:6px 0}
+    nav a::after{
+      content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px;
+      background:linear-gradient(90deg, transparent, var(--lav-400), transparent);
+      transform:scaleX(0); transform-origin:center; transition:transform .25s ease;
+    }
+    nav a:hover{opacity:1}
+    nav a:hover::after{transform:scaleX(1)}
+    .theme-toggle{
+      border:1px solid var(--card-border); background:#fff7; border-radius:999px; padding:6px 10px; cursor:pointer; margin-left:12px;
+      box-shadow:var(--shadow); backdrop-filter:blur(6px)
+    }
+
+    /* ===== Title ===== */
+    .title-wrap{text-align:center}
+    .eyemark{
+      display:inline-flex; align-items:center; gap:6px; color:var(--brand); font-weight:800; letter-spacing:.3px
+    }
+    .eyemark span{width:8px; height:8px; background:var(--brand); border-radius:2px; transform:rotate(25deg); display:inline-block}
+    h1{
+      font-family:"Playfair Display",ui-serif,Georgia,"Times New Roman",serif;
+      font-size:clamp(30px,5vw,48px); line-height:1.15; margin:10px 0 6px; letter-spacing:.2px;
+    }
+    .subtitle{color:var(--muted); max-width:760px; margin:8px auto 18px}
+
+    /* ===== Section title（細線＋小方塊） ===== */
+    .section-title{position:relative; padding-left:18px; font-size:22px; font-weight:900; letter-spacing:.3px; margin:18px 0 12px}
+    .section-title::before{content:""; position:absolute; left:0; top:8px; bottom:8px; width:1px; background: currentColor; opacity:.3}
+    .section-title::after{content:""; position:absolute; left:-2px; top:50%; transform:translateY(-50%); width:6px; height:6px; background: var(--brand); border-radius:2px}
+    .muted{color:var(--muted); font-weight:700; font-size:14px; margin-left:8px}
+
+    /* ===== Layout ===== */
+    .grid{display:grid; gap:26px; grid-template-columns:1fr}
+    @media(min-width:980px){ .grid{ grid-template-columns: 1.2fr .8fr } }
+
+    /* ===== Card surfaces ===== */
+    .card{
+      background:var(--card); border:1px solid var(--card-border); border-radius:18px;
+      box-shadow:var(--shadow); padding:18px; backdrop-filter: blur(6px);
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .card:hover{ transform: translateY(-2px); box-shadow:0 16px 34px rgba(57,40,98,.14) }
+
+    /* ===== Form ===== */
+    form{display:grid; gap:14px}
+    .row{display:grid; gap:14px; grid-template-columns:1fr}
+    @media(min-width:680px){ .row{ grid-template-columns:1fr 1fr } }
+    label{font-weight:700; font-size:14px}
+    input,textarea{
+      width:100%; padding:12px 14px; border-radius:12px;
+      border:1px solid var(--card-border); background:#fff; color:#111827;
+      transition:box-shadow .15s ease, border-color .15s ease, background .2s ease;
+    }
+    /* 1) 明確指定 data-theme="dark" 時的欄位顏色 */
+    html[data-theme="dark"] input,
+    html[data-theme="dark"] textarea{
+      background:#0b1323;
+      color:#e5e7eb;
+      border-color:#1f2a3a;
+    }
+
+    /* 2) 跟隨系統（未手動設 theme）且系統為深色時 */
+    @media (prefers-color-scheme: dark){
+      html:not([data-theme="light"]) input,
+      html:not([data-theme="light"]) textarea{
+        background:#0b1323;
+        color:#e5e7eb;
+        border-color:#1f2a3a;
+      }
+    }
+    textarea{min-height:160px; resize:vertical}
+    input:focus, textarea:focus{ outline:none; box-shadow: var(--ring); border-color:transparent }
+    .hint{font-size:12px; color:var(--muted); margin-top:-6px}
+
+    .actions{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:999px;
+      font-weight:800; border:1px solid var(--card-border); background:linear-gradient(135deg, var(--lav-400), var(--lav-500));
+      color:#fff; box-shadow:0 12px 26px rgba(154,134,214,.28); cursor:pointer;
+      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease, background .2s ease;
+      backdrop-filter: blur(4px);
+    }
+    .btn:hover{ transform:translateY(-2px); box-shadow:0 16px 34px rgba(154,134,214,.35); filter:saturate(1.02) }
+    .btn.secondary{
+      background:#FFFFFFCC; color:var(--text); border-color:var(--card-border);
+      box-shadow:var(--shadow);
+    }
+    .btn.secondary:hover{ background:var(--pill-bg) }
+    .btn:disabled{opacity:.6; cursor:not-allowed}
+
+    /* ===== Right column ===== */
+    .info-list{display:grid; gap:14px}
+    .info{display:flex; gap:12px; align-items:flex-start}
+    .icon{
+      width:36px; height:36px; border-radius:999px; display:grid; place-items:center; font-weight:900;
+      background:var(--pill-bg); color:var(--pill-text);
+      box-shadow:0 6px 14px rgba(154,134,214,.10);
+    }
+    .info h4{margin:0 0 4px}
+    .info p{margin:0; color:var(--muted)}
+    .social{display:flex; gap:12px; margin-top:10px}
+    .social img{width:22px; height:22px; display:block}
+
+    /* ===== Toast ===== */
+    .toast{
+      position:fixed; left:50%; transform:translateX(-50%); bottom:18px;
+      background:#0b1323; color:#fff; padding:10px 14px; border-radius:12px; box-shadow:var(--shadow); display:none
+    }
+    .toast.show{display:block}
+
+    /* ===== Focus ===== */
+    a:focus-visible, button:focus-visible{outline:none; box-shadow:var(--ring)}
+    
+    /* ===== 深色背景調整 ===== */
+    @media (prefers-color-scheme: dark){
+      body{
+        background-image:
+          radial-gradient(1200px 600px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+          radial-gradient(900px 500px at -10% 15%, rgba(151,190,175,0.16), transparent 60%),
+          linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      }
+      body::before, body::after{ opacity:.10 }
+      h1{ color:#F4F1FF }
+    }
+    html[data-theme="dark"] body{
+      background-image:
+        radial-gradient(1200px 600px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+        radial-gradient(900px 500px at -10% 15%, rgba(151,190,175,0.16), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    }
+    html[data-theme="dark"] body::before,
+    html[data-theme="dark"] body::after{ opacity:.10 }
+
+    /* =========================
+       Capsule inputs + Leaf icons
+    ========================= */
+    
+    /* 色彩微調 */
+    :root{
+      --field-border: rgba(154,134,214,.45);
+      --field-border-focus: rgba(154,134,214,.75);
+      --placeholder: rgba(0,0,0,.45);
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --field-border: rgba(185,172,241,.45);
+        --field-border-focus: rgba(185,172,241,.75);
+        --placeholder: rgba(255,255,255,.55);
+      }
+    }
+    html[data-theme="light"]{
+      --field-border: rgba(154,134,214,.45);
+     --field-border-focus: rgba(154,134,214,.75);
+      --placeholder: rgba(0,0,0,.45);
+    }
+    html[data-theme="dark"]{
+      --field-border: rgba(185,172,241,.45);
+      --field-border-focus: rgba(185,172,241,.75);
+      --placeholder: rgba(255,255,255,.55);
+    }
+
+    /* 1) 表單欄位：膠囊輪廓＋透明底 */
+    input, textarea{
+      background: transparent !important;
+      border: 1.5px solid var(--field-border) !important;
+     color: var(--text);
+      transition: box-shadow .18s ease, border-color .18s ease, transform .12s ease;
+    }
+
+    /* 單行輸入做成完整膠囊，文字區塊用大圓角 */
+    input{ border-radius: 999px !important; padding: 12px 16px; }
+    textarea{ border-radius: 18px !important; padding: 12px 16px; }
+
+    input::placeholder, textarea::placeholder{ color: var(--placeholder); }
+    input:focus, textarea:focus{
+      outline: none;
+      border-color: var(--field-border-focus) !important;
+     box-shadow: 0 0 0 6px rgba(154,134,214,.16); /* 淡淡薰衣草光暈 */
+    }
+    html[data-theme="dark"] input:focus,
+    html[data-theme="dark"] textarea:focus{
+      box-shadow: 0 0 0 6px rgba(185,172,241,.22);
+    }
+
+    /* 2) 右側 info 小圖示：改成 SVG 葉片（不改 HTML） */
+    .icon{
+      background: transparent !important;
+      color: var(--pill-text);           /* 讓 SVG 使用 currentColor */
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      width: 36px; height: 36px;
+      box-shadow: 0 6px 14px rgba(154,134,214,.10);
+     display: grid; place-items: center;
+      font-size: 0;                      /* 隱藏原本的 emoji 文字 */
+     position: relative;
+    }
+
+    /* 以 ::before 放入內嵌 SVG，描邊使用 currentColor 可自動換色 */
+    .icon::before{
+      content:"";
+      width: 20px; height: 20px;
+      display: block;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-image: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+        <g fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'>\
+          <path d='M4 20c8-2 12-6 14-14c0 0-8 2-10 8c-1 3 1 6 1 6'/>\
+          <path d='M9 15c2 .2 4 2.2 4 4'/>\
+        </g>\
+      </svg>");
+      opacity: .92;
+    }
+
+    /* hover 輕微強調 */
+    .info:hover .icon{ border-color: var(--field-border-focus); }
+
+    /* =========================
+       Elegent ghost pills + varied leaf icons
+    ========================= */
+
+    /* —— 讓側欄兩個行動鈕更典雅（ghost pill） —— */
+    .info .btn.secondary{
+      background: transparent !important;
+      color: var(--pill-text) !important;
+      border: 1.5px solid var(--field-border, rgba(154,134,214,.45)) !important;
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: none !important;
+      letter-spacing: .2px;
+    }
+    .info .btn.secondary:hover{
+      background: var(--pill-bg) !important;
+     transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(154,134,214,.18);
+    }
+
+    /* 小小的優雅箭頭 */
+    .info .btn.secondary::after{
+      content:"";
+      width:12px; height:12px; margin-left:6px; display:inline-block;
+      background-size:100% 100%; background-repeat:no-repeat;
+      filter: none;
+      background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+        <path d='M8 5l8 7-8 7' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/>\
+      </svg>");
+    }
+
+    /* —— 葉片圖示升級為多款 —— */
+    /* 基本樣式沿用你前面設定 */
+    .icon{
+      background: transparent !important;
+      color: var(--pill-text);
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      width: 36px; height: 36px;
+      display: grid; place-items: center;
+      font-size: 0; position: relative;
+      box-shadow: 0 6px 14px rgba(154,134,214,.10);
+    }
+    .icon::before{
+      content: "";
+      width: 20px; height: 20px;
+      display: block;
+      background-color: currentColor;          /* ← 顏色由元素 color 決定 */
+      /* 遮罩（Chrome/Safari/Edge） */
+      -webkit-mask: var(--leaf-icon) center / 100% 100% no-repeat;
+      /* 標準遮罩（Firefox） */
+      mask: var(--leaf-icon) center / 100% 100% no-repeat;
+      position: relative;
+      top: 1px;                                 /* 微調垂直置中 */
+      opacity: .95;
+    }
+
+    /* 逐列套不同葉片（6 種）— 只換遮罩，不改 HTML */
+    .info-list .info:nth-child(1) .icon::before{ --leaf-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M4 20c5-3 7-7 8-14c2-2 5-3 8-2c-1 3-4 5-8 6c-2 5-4 8-8 10z'/></svg>"); }
+    .info-list .info:nth-child(2) .icon::before{ --leaf-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M5 19c7-1 12-6 14-14c-7 2-12 6-14 14zM10 14c2 .2 4 2 4 4z'/></svg>"); }
+    .info-list .info:nth-child(3) .icon::before{ --leaf-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M4 18c6-2 9-6 10-12c-1 3-3 5-6 5c3 0 5 1 7 3c-3-1-5 0-7 2z'/></svg>"); }
+    .info-list .info:nth-child(4) .icon::before{ --leaf-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M7 18c2-4 2-7-2-10c-1 4 0 7 2 10zm10 0c-2-4-2-7 2-10c1 4 0 7-2 10z'/></svg>"); }
+    .info-list .info:nth-child(5) .icon::before{ --leaf-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23fff' d='M6 18c6-1 10-5 11-11c-5 1-9 5-11 11zM12 10c0 2 1 3 3 3z'/></svg>"); }
+    .info-list .info:nth-child(6) .icon::before{ --leaf-icon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='2' fill='%23fff'/><path fill='%23fff' d='M12 4c1.5 2 1.5 4 0 6c-1.5-2-1.5-4 0-6zM20 12c-2 1.5-4 1.5-6 0c2-1.5 4-1.5 6 0zM12 20c-1.5-2-1.5-4 0-6c1.5 2 1.5 4 0 6zM4 12c2-1.5 4-1.5 6 0c-2 1.5-4 1.5-6 0z'/></svg>"); }
+
+    /* hover 時，描邊與顏色微強化 */
+    .info:hover .icon{ border-color: rgba(154,134,214,.55); }
+    html[data-theme="dark"] .info:hover .icon{ border-color:#4a4670; }
+
+    /* 1. Call：嫩芽（sprout） */
+    .info-list .info:nth-child(1) .icon::before{
+      background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+        <g fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'>\
+          <path d='M4 20c5-3 7-7 8-14'/>\
+          <path d='M12 6c2-2 5-3 8-2c-1 3-4 5-8 6'/>\
+        </g></svg>");
+    }
+
+    /* 2. E-mail：單葉（leaf） */
+    .info-list .info:nth-child(2) .icon::before{
+      background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+        <g fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'>\
+          <path d='M5 19c7-1 12-6 14-14c-7 2-12 6-14 14z'/>\
+          <path d='M10 14c2 .2 4 2 4 4'/>\
+        </g></svg>");
+    }
+
+    /* 3. Location：枝葉（branch） */
+    .info-list .info:nth-child(3) .icon::before{
+      background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+        <g fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'>\
+          <path d='M4 18c6-2 9-6 10-12'/>\
+          <path d='M9 11c2-1 4-1 6 1'/>\
+          <path d='M8 14c2-.5 3 .5 4 2'/>\
+        </g></svg>");
+    }
+
+    /* 4. Book a Call：雙葉（twin leaf） */
+    .info-list .info:nth-child(4) .icon::before{
+      background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+        <g fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'>\
+          <path d='M7 18c2-4 2-7-2-10c-1 4 0 7 2 10z'/>\
+          <path d='M17 18c-2-4-2-7 2-10c1 4 0 7-2 10z'/>\
+        </g></svg>");
+    }
+
+    /* 5. Resume：種子（seed） */
+    .info-list .info:nth-child(5) .icon::before{
+      background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+        <g fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'>\
+          <path d='M6 18c6-1 10-5 11-11c-5 1-9 5-11 11z'/>\
+          <path d='M12 10c0 2 1 3 3 3'/>\
+        </g></svg>");
+    }
+
+    /* 6. Social：小花（bloom） */
+    .info-list .info:nth-child(6) .icon::before{
+      background-image:url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+        <g fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'>\
+         <circle cx='12' cy='12' r='2'/>\
+          <path d='M12 4c1.5 2 1.5 4 0 6c-1.5-2-1.5-4 0-6z'/>\
+          <path d='M20 12c-2 1.5-4 1.5-6 0c2-1.5 4-1.5 6 0z'/>\
+          <path d='M12 20c-1.5-2-1.5-4 0-6c1.5 2 1.5 4 0 6z'/>\
+          <path d='M4 12c2-1.5 4-1.5 6 0c-2 1.5-4 1.5-6 0z'/>\
+        </g></svg>");
+    }
+
+    /* 深色模式：icon 邊框稍微加強對比 */
+    html[data-theme="dark"] .icon{ border-color:#3a3753; }
+
+    /* =========================
+       1) 修正 icon 偏上 → 垂直置中
+    ========================= */
+    .icon::before {
+      display: block;
+      width: 20px;
+      height: 20px;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      opacity: .92;
+      position: relative;
+      top: 1px; /* 👈 微調置中 */
+    }
+
+    /* =========================
+       2) 優雅縮小按鈕（Open Calendar / Download Resume）
+    ========================= */
+    .info .btn.secondary {
+      font-size: 13px;          /* 按鈕字變小 */
+      padding: 8px 12px;        /* 按鈕變短變輕盈 */
+      border-width: 1.2px;
+    }
+
+    .info .btn.secondary::after {
+      width: 10px;              /* 小箭頭也跟著縮小 */
+      height: 10px;
+      margin-left: 5px;
+    }
+
+    .info .btn.secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(154,134,214,.16);
+    }
+
+    /* ================================
+       Contact Icon 改良版（亮暗模式）
+       - 加粗線條 / 增加柔光 / 顏色加深
+    =================================== */
+
+    /* icon 外框樣式 */
+    .icon {
+      background: transparent !important;
+      color: var(--lav-600);                   /* 淺色主題下 icon 顏色 */
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      box-shadow: 0 6px 14px rgba(154, 134, 214, 0.10);
+      transition: color 0.25s ease;
+    }
+    html[data-theme="dark"] .icon {
+      color: #E8E3FF;                          /* 深色主題下 icon 顏色 */
+    }
+
+    /* icon 本體 (SVG mask) */
+    .icon::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+     display: block;
+      background-color: currentColor;          /* 由 icon 的 color 控制顏色 */
+      -webkit-mask: var(--leaf-icon) center / 100% 100% no-repeat;
+      mask: var(--leaf-icon) center / 100% 100% no-repeat;
+      position: relative;
+      top: 1px;
+      opacity: 1;                              /* 💡 取消原先灰霧，改成實心 */
+      filter: drop-shadow(0 0 2px rgba(154, 134, 214, 0.4));
+    }
+    html[data-theme="dark"] .icon::before {
+      filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.4));
+    }
+
+    /* hover 時輪廓變亮 */
+    .info:hover .icon {
+      border-color: rgba(154, 134, 214, 0.55);
+    }
+    html[data-theme="dark"] .info:hover .icon {
+      border-color: #4a4670;
+    }
+
+    /* ======================
+       6 種葉片 icon（SVG）
+       已將線條加粗 stroke-width="2"
+    ====================== */
+    .info-list .info:nth-child(1) .icon::before {
+      --leaf-icon: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+      <path fill='%23fff' stroke='%23fff' stroke-width='2' d='M4 20c5-3 7-7 8-14c2-2 5-3 8-2c-1 3-4 5-8 6c-2 5-4 8-8 10z'/>\
+      </svg>");
+    }
+    .info-list .info:nth-child(2) .icon::before {
+      --leaf-icon: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+      <path fill='%23fff' stroke='%23fff' stroke-width='2' d='M5 19c7-1 12-6 14-14c-7 2-12 6-14 14zM10 14c2 .2 4 2 4 4z'/>\
+      </svg>");
+    }
+    .info-list .info:nth-child(3) .icon::before {
+      --leaf-icon: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+      <path fill='%23fff' stroke='%23fff' stroke-width='2' d='M4 18c6-2 9-6 10-12c-1 3-3 5-6 5c3 0 5 1 7 3c-3-1-5 0-7 2z'/>\
+      </svg>");
+    }
+    .info-list .info:nth-child(4) .icon::before {
+      --leaf-icon: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+      <path fill='%23fff' stroke='%23fff' stroke-width='2' d='M7 18c2-4 2-7-2-10c-1 4 0 7 2 10zm10 0c-2-4-2-7 2-10c1 4 0 7-2 10z'/>\
+      </svg>");
+    }
+    .info-list .info:nth-child(5) .icon::before {
+      --leaf-icon: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+      <path fill='%23fff' stroke='%23fff' stroke-width='2' d='M6 18c6-1 10-5 11-11c-5 1-9 5-11 11zM12 10c0 2 1 3 3 3z'/>\
+      </svg>");
+    }
+    .info-list .info:nth-child(6) .icon::before {
+      --leaf-icon: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>\
+      <circle cx='12' cy='12' r='2' fill='%23fff' stroke='%23fff' stroke-width='2'/>\
+      <path fill='%23fff' stroke='%23fff' stroke-width='2' d='M12 4c1.5 2 1.5 4 0 6c-1.5-2-1.5-4 0-6zM20 12c-2 1.5-4 1.5-6 0c2-1.5 4-1.5 6 0zM12 20c-1.5-2-1.5-4 0-6c1.5 2 1.5 4 0 6zM4 12c2-1.5 4-1.5 6 0c-2 1.5-4 1.5-6 0z'/>\
+      </svg>");
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <!-- ✅ 新 Logo：Carol Hou（SVG 版） -->
+        <a href="/" class="brand" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+          <svg width="180" height="50" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .logo-text {
+                font-family: 'Parisienne', cursive;
+                fill: #9179f3; /* Lavender */
+                font-size: 40px;
+                paint-order: stroke;
+                stroke: #D8CBA8;        /* Soft Gold outline */
+                stroke-width: 0.3px;
+                filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.08));
+              }
+            </style>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="logo-text">
+              Te-Jou Hou
+            </text>
+          </svg>
+        </a>
+      </div>
+      <div style="display:flex; align-items:center;">
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Me</a>
+          <a href="projects.html">Projects</a>
+          <a href="blog.html">Blogs</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">🌓</button>
+      </div>
+    </header>
+
+    <!-- Title -->
+    <div class="title-wrap">
+      <div class="eyemark"><span></span><span></span><span></span> <strong>Contact Me</strong></div>
+      <h1>Get in Touch</h1>
+      <p class="subtitle">Have a project, role, or collaboration in mind? Send me a note—I usually reply within 1–2 business days.</p>
+    </div>
+
+    <!-- Main grid -->
+    <section class="grid">
+      <!-- Left: form -->
+      <div class="card">
+        <h2 class="section-title">Message <span class="muted">tell me a bit about it</span></h2>
+
+        <!-- ✅ 換成這段 Formspree 表單 -->
+        <form action="https://formspree.io/f/mjkppkqg" method="POST" class="contact-form">
+          <div class="row">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required placeholder="Your name" />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" />
+            </div>
+          </div>
+      
+          <div>
+            <label for="subject">Subject</label>
+            <input id="subject" name="subject" type="text" placeholder="What’s this about?" />
+          </div>
+
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Share a short brief, goal, timeline, or links."></textarea>
+            <div class="hint">Tip: include any links or files that help me understand the scope.</div>
+          </div>
+
+          <!-- 可選：防機器人 Honeypot -->
+          <input type="text" name="_gotcha" style="display:none">
+
+          <div class="actions">
+            <button type="submit" class="btn">Send Message</button>
+            <a class="btn secondary" href="mailto:th5955a@american.edu">Email Directly</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right: info -->
+      <aside class="card">
+        <h2 class="section-title">Contact <span class="muted">details</span></h2>
+        <div class="info-list">
+          <div class="info">
+            <div class="icon">☎︎</div>
+            <div>
+              <h4>Call</h4>
+              <p>+1 (202) 925-7392</p>
+            </div>
+          </div>
+
+          <div class="info">
+            <div class="icon">✉︎</div>
+            <div>
+              <h4>E-mail</h4>
+              <p><a href="mailto:th5955a@american.edu">th5955a@american.edu</a></p> <!-- TODO: 換成你的信箱 -->
+            </div>
+          </div>
+
+          <div class="info">
+            <div class="icon">📍</div>
+            <div>
+              <h4>Location</h4>
+              <p>Washington, D.C. (open to remote)</p>
+            </div>
+          </div>
+
+          <div class="info">
+            <div class="icon">📅</div>
+            <div>
+              <h4>Book a Call</h4>
+              <p><a class="btn secondary" href="https://calendar.app.google/2mMWYzFtsvDMqPVS7" target="_blank" rel="noopener">Open Calendar</a></p> <!-- TODO: 換成你的預約連結 -->
+            </div>
+          </div>
+
+          <div class="info">
+            <div class="icon">⬇︎</div>
+            <div>
+              <h4>Resume</h4>
+              <p>
+                <a class="btn secondary" 
+                   href="https://drive.google.com/file/d/1AvSeMFVdi60jlQoFxwg5yRN4GB4RPDAv/view?usp=sharing" 
+                   target="_blank" 
+                   rel="noopener">
+                   Download Resume
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <div class="info">
+            <div class="icon">∞</div>
+            <div>
+              <h4>Social</h4>
+              <div class="social">
+                <!-- 你之前放在 /icons 的圖示 -->
+                <!-- <a href="https://medium.com/@yourname" target="_blank" rel="noopener"><img src="icons/medium.png" alt="Medium"></a> -->
+                <a href="https://www.linkedin.com/in/te-jou-hou/" target="_blank" rel="noopener"><img src="icons/linkedin.png" alt="LinkedIn"></a>
+                <a href="https://github.com/CarolHou-tj" target="_blank" rel="noopener"><img src="icons/github.png" alt="GitHub"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <footer style="color:var(--muted); text-align:center; font-size:13px; padding:40px 0 10px">
+      © <span id="year"></span> Te-Jou(Carol) Hou — Contact
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">Opening your email app…</div>
+
+  <script>
+    // 年份
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 主題切換（跟首頁一致：跟隨系統 → 暗 → 亮）
+    document.getElementById('themeBtn').addEventListener('click',()=>{
+      const html=document.documentElement;
+      const next=html.getAttribute('data-theme')==='dark'?'light'
+               : html.getAttribute('data-theme')==='light'?null:'dark';
+      if(next){ html.setAttribute('data-theme',next) } else { html.removeAttribute('data-theme') }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.querySelector(".contact-form");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault(); // 🚫 防止開啟郵件 app
+
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: { "Accept": "application/json" },
+          });
+
+          if (response.ok) {
+            form.innerHTML = `
+              <div style="text-align:center; padding:40px 0;">
+                <h3 style="color:#7C5CE3;">✅ Thank you!</h3>
+                <p>Your message has been sent successfully. I'll get back to you soon.</p>
+              </div>`;
+          } else {
+            alert("⚠️ Something went wrong. Please try again or email me directly.");
+          }
+        } catch (error) {
+          alert("❌ Network error. Please check your internet connection or try again later.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

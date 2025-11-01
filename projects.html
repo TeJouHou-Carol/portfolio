@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Projects — Your Name</title>
+  <meta name="description" content="Selected projects by Your Name"/>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Lavender Botanical Theme
+       （排版與文案維持不變）
+    ============================*/
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+
+    :root{
+      /* Cream base + Lavender + Sage */
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+
+      --lav-50:#F2EDF9; --lav-100:#E5DBF3; --lav-200:#D5C7EE;
+      --lav-300:#C3B2E7; --lav-400:#AE9BDE; --lav-500:#9A86D6; --lav-600:#7C6BC8;
+
+      --sage-300:#C1DBD0; --sage-400:#ABCDBF;
+
+      --text-deep:#2C2A38; --text-muted:#6B6A74;
+
+      --card:#FFFFFFCC;          /* 半透明玻璃感 */
+      --card-border:#E8E2F3;
+
+      --pill:#EFEAFA; --pill-text:#5E519D;
+
+      --btn:#9A86D6; --btn-text:#ffffff; --btn-hover:#A996DC;
+
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+
+      /* 對齊原檔變數名稱 */
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+      --accent:var(--btn); --accent-text:var(--btn-text);
+      --brand:var(--lav-500);
+    }
+
+    /* 自動深色 */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --cream:#121219; --cream-2:#181826;
+        --bg:var(--cream);
+        --text:#F4F1FF; --muted:#C6C3D6;
+
+        --card:rgba(28,28,44,.86);
+        --card-border:#2F2D43;
+
+        --pill:#2B2940; --pill-text:#E4DEFF;
+
+        --accent:#B9ACF1; --accent-text:#0F0E16;
+        --ring:0 0 0 6px rgba(185,172,241,.28);
+        --shadow:0 14px 34px rgba(0,0,0,.45);
+      }
+    }
+
+    /* 手動切換（🌓） */
+    html[data-theme="light"]{
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+      --card:#FFFFFFCC; --card-border:#E8E2F3;
+      --pill:#EFEAFA; --pill-text:#5E519D;
+      --accent:#9A86D6; --accent-text:#ffffff;
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+    }
+    html[data-theme="dark"]{
+      --cream:#121219; --cream-2:#181826;
+      --bg:var(--cream); --text:#F4F1FF; --muted:#C6C3D6;
+      --card:rgba(28,28,44,.86); --card-border:#2F2D43;
+      --pill:#2B2940; --pill-text:#E4DEFF;
+      --accent:#B9ACF1; --accent-text:#0F0E16;
+      --ring:0 0 0 6px rgba(185,172,241,.28);
+      --shadow:0 14px 34px rgba(0,0,0,.45);
+    }
+
+    /* ===== Base / Background ===== */
+    body{
+      font-family:"Inter",ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text);
+      line-height:1.65;
+      background-image:
+        radial-gradient(1200px 600px at 85% -10%, rgba(210,199,240,0.35), transparent 60%),
+        radial-gradient(900px 500px at -10% 15%, rgba(171,205,191,0.28), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      min-height:100svh; overflow-x:hidden; position:relative;
+    }
+    /* 植物線條水印（內嵌SVG） */
+    body::before, body::after{
+      content:""; position:fixed; z-index:-1; pointer-events:none;
+      width:48vw; height:48vw; background-repeat:no-repeat; background-size:contain;
+      opacity:.18; filter:blur(.1px);
+    }
+    body::before{
+      left:-6vw; bottom:-6vw; transform:rotate(2deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>\
+          <g fill='none' stroke='%239A86D6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M60 380 C 80 300, 120 200, 170 110'/>\
+            <path d='M90 360 C 120 290, 150 220, 200 140'/>\
+            <path d='M110 330 c 18 -22, 40 -32, 60 -12'/>\
+            <path d='M140 280 c 26 -20, 58 -28, 76 -6'/>\
+            <path d='M160 240 c 20 -18, 48 -22, 66 -2'/>\
+            <path d='M145 205 c 12 -16, 30 -22, 42 -8'/>\
+          </g>\
+        </svg>");
+    }
+    body::after{
+      right:-8vw; top:-8vw; opacity:.16; transform:rotate(-6deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 420'>\
+          <g fill='none' stroke='%2397BEAF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M340 10 C 320 120, 300 210, 280 410'/>\
+            <path d='M330 80 c -22 20 -40 22 -62 -4'/>\
+            <path d='M310 150 c -30 18 -52 16 -70 -10'/>\
+            <path d='M300 220 c -28 16 -50 14 -68 -10'/>\
+            <path d='M290 290 c -24 14 -46 12 -64 -12'/>\
+          </g>\
+        </svg>");
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1150px;margin:0 auto;padding:24px}
+
+    /* ===== Header ===== */
+    header{display:flex;align-items:center;justify-content:space-between;padding:8px 0 20px}
+    .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800}
+    .brand .logo{
+      width:26px;height:26px;border-radius:10px;display:grid;place-items:center;color:#fff;
+      background:linear-gradient(135deg, var(--lav-500), var(--sage-400));
+      box-shadow:0 6px 14px rgba(154,134,214,.25);
+    }
+    nav a{margin-left:18px;opacity:.9;position:relative;padding:6px 0}
+    nav a::after{
+      content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;
+      background:linear-gradient(90deg,transparent,var(--lav-400),transparent);
+      transform:scaleX(0);transform-origin:center;transition:transform .25s ease;
+    }
+    nav a:hover{opacity:1}
+    nav a:hover::after{transform:scaleX(1)}
+    .theme-toggle{
+      border:1px solid var(--card-border);background:#fff7;border-radius:999px;padding:6px 10px;cursor:pointer;margin-left:12px;
+      box-shadow:var(--shadow); backdrop-filter:blur(6px)
+    }
+
+    /* ===== Title ===== */
+    .title-wrap{ text-align:center; padding:10px 0 6px;}
+    .eyemark{
+      display:inline-flex; align-items:center; gap:8px; margin-bottom:6px;
+      color:var(--lav-600); font-weight:800; letter-spacing:.3px;
+    }
+    .eyemark span{ width:8px; height:8px; background:var(--lav-600); border-radius:2px; display:inline-block; transform:rotate(25deg)}
+    h1{
+      font-family:"Playfair Display",ui-serif,Georgia,"Times New Roman",serif;
+      font-size: clamp(28px,4vw,42px); line-height:1.15; margin:0; letter-spacing:.2px;
+    }
+    .subtitle{color:var(--muted); max-width:760px; margin:10px auto 0}
+
+    /* ===== Filters ===== */
+    .filters{
+      display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:28px 0 10px;
+    }
+    .filter-btn{
+      border:1px solid var(--card-border); background:#FFFFFFB3; color:var(--text);
+      padding:10px 14px; border-radius:999px; font-weight:700; font-size:14px;
+      box-shadow:var(--shadow); cursor:pointer; transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+      backdrop-filter:blur(4px);
+    }
+    .filter-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 26px rgba(154,134,214,.20); background:var(--pill) }
+    .filter-btn[aria-pressed="true"]{
+      background:linear-gradient(135deg, var(--lav-400), var(--lav-500));
+      border-color:rgba(154,134,214,.55); color:#fff;
+      box-shadow:0 14px 28px rgba(154,134,214,.35);
+    }
+
+    /* ===== Grid ===== */
+    .grid{
+      display:grid; gap:22px; margin-top:14px;
+      grid-template-columns:repeat(1,minmax(0,1fr));
+    }
+    @media (min-width: 780px){ .grid{ grid-template-columns: repeat(2,1fr);} }
+    @media (min-width:1080px){ .grid{ grid-template-columns: repeat(3,1fr);} }
+
+    /* ===== Card ===== */
+    .card{
+      background:var(--card); border:1px solid var(--card-border);
+      border-radius:18px; overflow:hidden; box-shadow:var(--shadow);
+      display:flex; flex-direction:column; transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+      backdrop-filter:blur(6px);
+    }
+    .card:hover{ transform:translateY(-2px); box-shadow:0 16px 34px rgba(57,40,98,.14) }
+    .thumb{aspect-ratio:16/10; background:#e5e7eb; position:relative}
+    .thumb img{ width:100%; height:100%; object-fit:cover; display:block}
+    .meta{ padding:16px 16px 14px}
+    .kicker{ color:var(--muted); font-size:13px; margin:0 0 6px }
+    .title{ font-size:18px; font-weight:800; margin:0 0 8px; font-family:"Playfair Display",ui-serif,Georgia,serif }
+    .desc{ color:var(--muted); font-size:14px; margin:0 }
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:12px }
+    .tag{ font-size:12px; padding:6px 10px; background:var(--pill); color:var(--pill-text);
+          border-radius:999px; border:1px solid rgba(154,134,214,.38);
+          box-shadow:0 6px 14px rgba(154,134,214,.10); transition:transform .15s ease, background .2s ease }
+    .tag:hover{ transform:translateY(-1px); background:var(--lav-100) }
+
+    /* ===== Footer ===== */
+    footer{ color:var(--muted); text-align:center; font-size:13px; padding:40px 0 10px }
+    a:focus-visible, button:focus-visible{ outline:none; box-shadow:var(--ring); border-radius:12px }
+    .hide{ display:none !important }
+
+    /* ===== 深色背景漸層與水印淡化 ===== */
+    @media (prefers-color-scheme: dark){
+      body{
+        background-image:
+          radial-gradient(1200px 600px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+          radial-gradient(900px 500px at -10% 15%, rgba(151,190,175,0.16), transparent 60%),
+          linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      }
+      body::before, body::after{ opacity:.10 }
+      h1{ color:#F4F1FF }
+    }
+    html[data-theme="dark"] body{
+      background-image:
+        radial-gradient(1200px 600px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+        radial-gradient(900px 500px at -10% 15%, rgba(151,190,175,0.16), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    }
+    html[data-theme="dark"] body::before,
+    html[data-theme="dark"] body::after{ opacity:.10 }
+
+    .card.hide {
+     display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <!-- ✅ 新 Logo：Carol Hou（SVG 版） -->
+        <a href="/" class="brand" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+          <svg width="180" height="50" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .logo-text {
+                font-family: 'Parisienne', cursive;
+                fill: #9179f3; /* Lavender */
+                font-size: 40px;
+                paint-order: stroke;
+                stroke: #D8CBA8;        /* Soft Gold outline */
+                stroke-width: 0.3px;
+                filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.08));
+              }
+            </style>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="logo-text">
+              Te-Jou Hou
+            </text>
+          </svg>
+        </a>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Me</a>
+          <a href="projects.html">Projects</a>
+          <a href="blog.html">Blogs</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">🌓</button>
+      </div>
+    </header>
+
+    <!-- Title -->
+    <div class="title-wrap">
+      <div class="eyemark"><span></span><span></span><span></span> 
+        <strong>My Projects</strong>
+      </div>
+      <h1>Project Highlights</h1>
+      <p class="subtitle">
+        A curated collection of my academic, hackathon, internship, and competition projects — highlighting practical problem solving, analytical thinking, and creative execution.
+      </p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters" id="filters">
+      <button class="filter-btn" data-cat="all" aria-pressed="true">ALL</button>
+      <button class="filter-btn" data-cat="academic">Academic</button>
+      <button class="filter-btn" data-cat="hackathon">Hackathon</button>
+      <button class="filter-btn" data-cat="internship">Internship</button>
+      <button class="filter-btn" data-cat="competition">Competition</button>
+    </div>
+
+    <!-- Grid -->
+    <section class="grid" id="grid">
+      
+      <!-- DC Airbnb Explorer -->
+      <a href="https://github.com/CarolHou-tj/dc-airbnb-explorer.git" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+        <article class="card" data-cat="academic">
+          <div class="thumb">
+            <img src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=1200&auto=format&fit=crop" alt="DC Airbnb Explorer App">
+          </div>
+          <div class="meta">
+            <p class="kicker">Data Visualization</p>
+            <h3 class="title">DC Airbnb Explorer</h3>
+            <p class="desc">
+              Built an interactive R Shiny app analyzing 4,153 Airbnb listings and 31 attractions in Washington, D.C. — delivering dynamic neighborhood and pricing insights.
+            </p>
+            <div class="tags">
+              <span class="tag">R Shiny</span><span class="tag">DataViz</span><span class="tag">Geospatial</span>
+            </div>
+          </div>
+        </article>
+      </a>
+
+      <!-- Malware Family Classifier -->
+      <a href="https://github.com/CarolHou-tj/malware-family-classifier.git" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+        <article class="card" data-cat="academic">
+          <div class="thumb">
+            <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=1200&auto=format&fit=crop" alt="Malware Classifier">
+          </div>
+          <div class="meta">
+            <p class="kicker">Machine Learning</p>
+            <h3 class="title">Malware Family Classifier</h3>
+            <p class="desc">
+              Developed a multi-class malware classifier using Random Forest and 1D-CNN on the EMBER 2018 dataset — achieving 93.7% accuracy in family prediction.
+            </p>
+            <div class="tags">
+              <span class="tag">Python</span><span class="tag">CNN</span><span class="tag">Cybersecurity</span>
+            </div>
+          </div>
+        </article>
+      </a>
+
+      <!-- SAS Hackathon 2025 -->
+      <a href="https://github.com/CarolHou-tj" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+        <article class="card" data-cat="hackathon">
+          <div class="thumb">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="SAS Hackathon Project">
+          </div>
+          <div class="meta">
+            <p class="kicker">Hackathon</p>
+            <h3 class="title">SAS Hackathon 2025</h3>
+            <p class="desc">
+              Applied uplift modeling with XGBoost for fundraising ROI prediction — ranked in the Top 20% out of 156 global participants for modeling innovation and impact.
+            </p>
+            <div class="tags">
+              <span class="tag">XGBoost</span><span class="tag">Uplift</span><span class="tag">Modeling</span>
+            </div>
+          </div>
+        </article>
+      </a>
+
+      <!-- AI x Sustainable Communities Challenge -->
+      <a href="https://github.com/CarolHou-tj" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+        <article class="card" data-cat="competition">
+          <div class="thumb">
+            <img src="images/projects/AI Sust_Group.jpg" alt="AI x Sustainable Communities Project">
+          </div>
+          <div class="meta">
+            <p class="kicker">Innovation Challenge</p>
+            <h3 class="title">AI x Sustainable Communities</h3>
+            <p class="desc">
+              Designed and pitched an AI-powered adaptive reuse prototype integrating GPT, Mapbox, and Notion — recognized for its innovation and sustainable urban impact.
+            </p>
+            <div class="tags">
+              <span class="tag">GPT</span><span class="tag">Mapbox</span><span class="tag">Urban AI</span>
+            </div>
+         </div>
+        </article>
+      </a>
+
+      <!-- NBA Salary Tier Classification -->
+      <a href="https://github.com/CarolHou-tj/nba-salary-tier-classification.git" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+        <article class="card" data-cat="academic">
+          <div class="thumb">
+            <img src="images/projects/basketball.jpg" alt="NBA Salary Classification">
+          </div>
+          <div class="meta">
+            <p class="kicker">Team Project</p>
+            <h3 class="title">NBA Salary Tier Classification</h3>
+            <p class="desc">
+              Contributed to developing classification models predicting NBA players’ salary tiers using 2022–23 stats — implemented Decision Tree and performance analysis.
+            </p>
+            <div class="tags">
+              <span class="tag">Python</span><span class="tag">Decision Tree</span><span class="tag">Teamwork</span>
+            </div>
+          </div>
+        </article>
+      </a>
+
+      </section>
+
+    <footer>
+      © <span id="year"></span> Te-Jou(Carol) Hou — Projects
+    </footer>
+  </div>
+
+  <script>
+    // 年份
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 主題切換（與首頁一致：跟隨系統 → 暗 → 亮）
+    document.getElementById('themeBtn').addEventListener('click', ()=>{
+      const html=document.documentElement;
+      const next = html.getAttribute('data-theme')==='dark'?'light'
+                : html.getAttribute('data-theme')==='light'?null:'dark';
+      if(next){ html.setAttribute('data-theme', next) } else { html.removeAttribute('data-theme') }
+    });
+
+    // 篩選
+    const buttons=[...document.querySelectorAll('.filter-btn')];
+    const cards=[...document.querySelectorAll('.grid a')];
+    buttons.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        buttons.forEach(b=>b.setAttribute('aria-pressed','false'));
+        btn.setAttribute('aria-pressed','true');
+
+        const cat = btn.dataset.cat;
+        cards.forEach(c => {
+          const article = c.querySelector('.card');
+          if (cat === 'all' || article.dataset.cat === cat) {
+            c.classList.remove('hide');
+          } else {
+            c.classList.add('hide');
+          }
+        });
+      });
+    }); 
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Te-Jou Hou(Carol) — Portfolio</title>
+  <meta name="description" content="Personal portfolio of Your Name" />
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Lavender Botanical Theme
+       （保留原本排版與文案不變）
+    ============================*/
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    :root{
+      /* Cream base + Lavender + Sage */
+      --cream: #F8F5EF;
+      --cream-2:#F3EFE6;
+
+      --lav-50:#F2EDF9;
+      --lav-100:#E5DBF3;
+      --lav-200:#D5C7EE;
+      --lav-300:#C3B2E7;
+      --lav-400:#AE9BDE;
+      --lav-500:#9A86D6; /* main */
+      --lav-600:#8A77C7;
+      --lav-700:#6F5EAE;
+
+      --sage-50:#EEF4F1;
+      --sage-100:#E3EFE9;
+      --sage-200:#D3E6DE;
+      --sage-300:#C1DBD0;
+      --sage-400:#ABCDBF;
+      --sage-500:#97BEAF;
+
+      --text-deep:#2C2A38;   /* 優雅深灰 */
+      --text-muted:#6B6A74;
+
+      --card:#FFFFFFCC;      /* 微透明提升輕盈感 */
+      --card-border:#E8E2F3; /* 帶薰衣草邊線 */
+
+      --pill-bg:#EFEAFA;     /* 標籤底色 */
+      --pill-text:#5E519D;
+
+      --btn:#9A86D6;         /* CTA 主色（薰衣草） */
+      --btn-text:#ffffff;
+      --btn-hover:#A996DC;
+
+      --shadow: 0 12px 30px rgba(57, 40, 98, 0.10);
+      --lift: translateY(-2px);
+      --ring: 0 0 0 6px rgba(154,134,214,0.18);
+
+      /* 兼容舊變數名（沿用原結構） */
+      --bg: var(--cream);
+      --text: var(--text-deep);
+      --muted: var(--text-muted);
+      --card: var(--card);
+      --card-border: var(--card-border);
+      --pill: var(--pill-bg);
+      --pill-text: var(--pill-text);
+      --accent: var(--btn);
+      --accent-text: var(--btn-text);
+      --shadow: var(--shadow);
+      --ring: var(--ring);
+    }
+
+    /* （可選）Dark 模式：柔和薰衣草夜色 */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#191923;
+        --text:#ECEBF3;
+        --muted:#B9B7C7;
+        --card:#202031CC;
+        --card-border:#34324A;
+        --pill:#2B2940;
+        --pill-text:#D9D2F4;
+        --accent:#B3A2E7;
+        --accent-text:#0F0E16;
+        --ring:0 0 0 6px rgba(179,162,231,0.25);
+        --shadow: 0 12px 30px rgba(0,0,0,0.35);
+      }
+    }
+
+    /* 手動切換仍保留（原功能不變） */
+    html[data-theme="light"]{
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+      --card:#FFFFFFCC; --card-border:#E8E2F3;
+      --pill:#EFEAFA; --pill-text:#5E519D;
+      --accent:#9A86D6; --accent-text:#ffffff;
+      --shadow:0 12px 30px rgba(57,40,98,0.10);
+      --ring:0 0 0 6px rgba(154,134,214,0.18);
+    }
+    html[data-theme="dark"]{
+      --bg:#191923; --text:#ECEBF3; --muted:#B9B7C7; --card:#202031CC; --card-border:#34324A;
+      --pill:#2B2940; --pill-text:#D9D2F4; --accent:#B3A2E7; --accent-text:#0F0E16;
+      --shadow:0 12px 30px rgba(0,0,0,0.35); --ring:0 0 0 6px rgba(179,162,231,0.25);
+    }
+
+    /* ================
+       Typography
+    ===================*/
+    body{
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      position: relative;
+      min-height: 100svh;
+      /* 柔和奶油×薰衣草 漸層 */
+      background-image:
+        radial-gradient(1200px 600px at 85% -10%, rgba(210,199,240,0.35), transparent 60%),
+        radial-gradient(900px 500px at -10% 15%, rgba(171,205,191,0.28), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      overflow-x: hidden;
+    }
+
+    /* 植物線條水印（無外部圖，內嵌 SVG） */
+    body::before, body::after{
+      content: "";
+      position: fixed;
+      pointer-events: none;
+      z-index: -1;
+      width: 48vw; height: 48vw;
+      opacity: .18;
+      background-repeat: no-repeat;
+      background-size: contain;
+      filter: blur(.1px);
+    }
+    /* 左下角水印 */
+    body::before{
+      left: -6vw; bottom: -6vw;
+      background-image: url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>\
+          <g fill='none' stroke='%239A86D6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M60 380 C 80 300, 120 200, 170 110'/>\
+            <path d='M90 360 C 120 290, 150 220, 200 140'/>\
+            <path d='M110 330 c 18 -22, 40 -32, 60 -12'/>\
+            <path d='M140 280 c 26 -20, 58 -28, 76 -6'/>\
+            <path d='M160 240 c 20 -18, 48 -22, 66 -2'/>\
+            <path d='M145 205 c 12 -16, 30 -22, 42 -8'/>\
+          </g>\
+        </svg>");
+      transform: rotate(2deg);
+    }
+    /* 右上角水印（細長葉） */
+    body::after{
+      right: -8vw; top: -8vw;
+      opacity: .16;
+      background-image: url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 420'>\
+          <g fill='none' stroke='%2397BEAF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M340 10 C 320 120, 300 210, 280 410'/>\
+            <path d='M330 80 c -22 20 -40 22 -62 -4'/>\
+            <path d='M310 150 c -30 18 -52 16 -70 -10'/>\
+            <path d='M300 220 c -28 16 -50 14 -68 -10'/>\
+            <path d='M290 290 c -24 14 -46 12 -64 -12'/>\
+          </g>\
+        </svg>");
+      transform: rotate(-6deg);
+    }
+
+    h1, h2, h3{
+      font-family: "Playfair Display", ui-serif, Georgia, "Times New Roman", serif;
+      letter-spacing: .2px;
+      color: var(--text);
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    img{ max-width: 100%; display: block; }
+
+    /* ================
+       Layout
+    ===================*/
+    .container{ max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+    header{
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 8px 0 24px;
+    }
+
+    .brand{
+      display: inline-flex; align-items: center; gap: 10px; font-weight: 700;
+      letter-spacing: .3px;
+    }
+    .brand .logo{
+      width: 28px; height: 28px; display: grid; place-items:center;
+      border-radius: 10px;
+      color: var(--btn-text);
+      background: linear-gradient(135deg, var(--lav-500), var(--sage-400));
+      box-shadow: 0 6px 14px rgba(154,134,214,.25);
+      font-size: 14px;
+    }
+    nav a{
+      opacity: .86; margin-left: 18px; padding: 6px 0;
+      position: relative;
+    }
+    nav a::after{
+      content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px;
+      background: linear-gradient(90deg, transparent, var(--lav-400), transparent);
+      transform: scaleX(0); transform-origin:center; transition: transform .25s ease;
+    }
+    nav a:hover{ opacity: 1; }
+    nav a:hover::after{ transform: scaleX(1); }
+
+    .theme-toggle{
+      border: 1px solid var(--card-border); background: #fff7;
+      border-radius: 999px; padding: 6px 10px; cursor: pointer; margin-left: 12px;
+      backdrop-filter: blur(6px);
+    }
+
+    /* ================
+       Hero
+    ===================*/
+    .hero {
+      text-align: center;
+      padding: 28px 0 8px;
+    }
+
+    .avatar {
+      width: 96px; height: 96px; margin: 0 auto 20px; border-radius: 999px;
+      background: conic-gradient(from 210deg, var(--lav-300), var(--lav-500), var(--sage-300), var(--lav-300));
+      display: grid; place-items: center; color: white; font-weight: 800; font-size: 28px;
+      box-shadow: 0 12px 32px rgba(154,134,214,.35);
+      overflow: hidden; border: 3px solid #ffffff99;
+    }
+    .avatar img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* 🧭 Hero 主標與副標調整 */
+    .hero h1 {
+      font-size: 2.1rem;              /* 稍微縮小字體 */
+      line-height: 1.3;               /* 增加行高 */
+      letter-spacing: 0.01em;         /* 微調字距 */
+      max-width: 880px;               /* 限制文字寬度 */
+      margin: 0 auto 0.75em;          /* 與副標保持距離 */
+    }
+
+    .hero p {
+      max-width: 720px;               /* 限制副標寬度 */
+      margin: 0 auto;
+      line-height: 1.6;               /* 提高可讀性 */
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 760px;
+      margin: 14px auto 18px;
+      backdrop-filter: blur(0.5px);
+    }
+
+    /* Social 連結 */
+    .social {
+      display: flex; gap: 12px; justify-content: center; margin: 10px 0 20px;
+    }
+    .social a {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--card-border); background: #FFFFFFB3;
+      border-radius: 999px; padding: 8px 12px; font-size: 14px;
+      transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 6px 16px rgba(154,134,214,.10);
+    }
+    .social a:hover {
+      background: var(--pill); transform: var(--lift);
+      box-shadow: 0 10px 22px rgba(154,134,214,.18);
+    }
+
+    .icon {
+      width: 20px; height: 20px; object-fit: contain;
+    }
+
+    /* CTA 薰衣草膠囊 */
+    .cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--btn); color: var(--btn-text);
+      padding: 12px 20px; border-radius: 999px; font-weight: 700;
+      box-shadow: 0 12px 28px rgba(154,134,214,.35);
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .cta:hover {
+      transform: var(--lift);
+      background: var(--btn-hover);
+      box-shadow: 0 16px 30px rgba(154,134,214,.45);
+    }
+
+    .dot {
+      width: 8px; height: 8px; background: #7bd389; border-radius: 999px;
+      box-shadow: 0 0 0 4px rgba(123,211,137,0.25);
+    }
+
+    /* ================
+           Cards Grid
+        ===================*/
+    .grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 34px;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    @media (min-width: 700px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 980px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ================
+            Card Base
+        ===================*/
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* 💡 常駐柔和陰影 */
+      position: relative;
+      transition: box-shadow 0.3s ease, background 0.2s ease;
+      min-height: 170px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(6px);
+    }
+
+    /* 💡 移除 hover 浮起效果（不再有 transform） */
+    .card:hover {
+      transform: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    /* 💡 移除右上角箭頭 */
+    .card .corner {
+      display: none;
+    }
+
+    /* Eyebrow 標題上方小字 */
+    .card .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #6d5bd0; /* 改成淡紫色，呼應主題 */
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    /* 標題 */
+    .card h3 {
+      margin: 8px 0 6px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b; /* 深灰藍，對比柔和 */
+    }
+
+    /* 內文 */
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .tag {
+      font-size: 12px;
+      padding: 7px 12px;
+      background: var(--pill);
+      color: var(--pill-text);
+      border-radius: 999px;
+      border: 1px solid rgba(154, 134, 214, 0.38);
+      box-shadow: 0 6px 14px rgba(154, 134, 214, 0.1);
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .tag:hover {
+      transform: translateY(-1px);
+      background: var(--lav-100);
+    }
+
+    /* Footer */
+    footer {
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      padding: 44px 0 12px;
+    }
+    footer a {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Focus ring for accessibility */
+    a:focus-visible,
+    button:focus-visible {
+      outline: none;
+      box-shadow: var(--ring);
+      border-radius: 14px;
+    }
+
+    /* ===== Section layout ===== */
+    #strengths {
+      padding: 60px 0 40px;
+      position: relative;
+    }
+
+    /* 主標題：加淡色漸層與分隔線 */
+    .section-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 38px;
+      color: #1e1e2f;
+      position: relative;
+    }
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      margin: 14px auto 0;
+      background: linear-gradient(90deg, var(--lav-400), var(--sage-300));
+      border-radius: 3px;
+      opacity: 0.6;
+    }
+
+    /* 總結句設計：讓它視覺上屬於同一區 */
+    .section-summary {
+      color: var(--muted);
+      margin: 48px auto 0;
+      max-width: 720px;
+      font-size: 15px;
+      line-height: 1.7;
+      background: rgba(255,255,255,0.6);
+      border-top: 1px solid rgba(154,134,214,0.15);
+      padding-top: 24px;
+    }
+
+
+    /* =========================
+       Dark Mode – Visual Fixes
+       （直接貼在 <style> 的最後）
+    ===========================*/
+
+    /* 自動深色 */
+    @media (prefers-color-scheme: dark){
+      :root{
+        /* 把主要背景漸層的兩個變數也換成深色 */
+        --cream:  #121219;
+        --cream-2:#181826;
+
+        /* 提高文字對比 */
+        --text: #F4F1FF;        /* 標題、主要文字更亮 */
+        --muted:#C6C3D6;        /* 次要文字 */
+
+        /* 元件對比更清楚 */
+        --card: rgba(28,28,44,0.86);
+        --card-border:#2F2D43;
+        --pill:#2B2940;
+        --pill-text:#E4DEFF;
+
+        --accent:#B9ACF1;       /* CTA */
+        --accent-text:#0F0E16;
+        --ring: 0 0 0 6px rgba(185,172,241,0.28);
+        --shadow: 0 14px 34px rgba(0,0,0,0.45);
+      }
+
+      /* 深色背景漸層（更暗、更低透明度的點綴） */
+      body{
+        background-image:
+          radial-gradient(1200px 600px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+          radial-gradient(900px 500px at -10% 15%, rgba(151,190,175,0.16), transparent 60%),
+          linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      }
+
+      /* 植物水印更淡，避免搶視覺 */
+      body::before{ opacity: .10; }
+      body::after { opacity: .10; }
+
+      /* 標題更醒目、內文維持柔和 */
+      h1, h2, h3{ color: #F4F1FF; }
+      .subtitle{ color: var(--muted); }
+
+      /* 卡片對比、玻璃感微弱化 */
+      .card{
+        background: var(--card);
+        border-color: var(--card-border);
+        backdrop-filter: blur(4px);
+      }
+
+      /* 膠囊標籤與社群按鈕的對比 */
+      .tag{
+        background: var(--pill);
+        color: var(--pill-text);
+        border-color: #3A3760;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.28);
+      }
+      .social a{
+        background: rgba(45,44,68,0.75);
+        border-color: #34324A;
+       box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+      }
+      .social a:hover{
+        background: #3A3760;
+       transform: translateY(-2px);
+      }
+
+      /* CTA 更亮、hover 清楚 */
+      .cta{
+        background: var(--accent);
+        color: var(--accent-text);
+        box-shadow: 0 16px 32px rgba(185,172,241,0.35);
+      }
+      .cta:hover{
+        background: #C6BBF4;
+        box-shadow: 0 20px 36px rgba(185,172,241,0.45);
+      }
+
+      /* 頂部小 Logo 的對比 */
+      .brand .logo{
+        background: linear-gradient(135deg, #7C6BC8, #7AAE9B);
+        color: #0F0E16;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+      }
+    }
+
+    /* 手動切換深色：與上面保持一致（確保點擊 🌓 也生效） */
+    html[data-theme="dark"]{
+      --cream:  #121219;
+      --cream-2:#181826;
+      --text:#F4F1FF;
+      --muted:#C6C3D6;
+      --card: rgba(28,28,44,0.86);
+      --card-border:#2F2D43;
+      --pill:#2B2940;
+      --pill-text:#E4DEFF;
+      --accent:#B9ACF1;
+      --accent-text:#0F0E16;
+      --ring: 0 0 0 6px rgba(185,172,241,0.28);
+      --shadow: 0 14px 34px rgba(0,0,0,0.45);
+    }
+    html[data-theme="dark"] body{
+      background-image:
+        radial-gradient(1200px 600px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+        radial-gradient(900px 500px at -10% 15%, rgba(151,190,175,0.16), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    }
+    html[data-theme="dark"] h1,
+    html[data-theme="dark"] h2,
+    html[data-theme="dark"] h3{ color:#F4F1FF; }
+    html[data-theme="dark"] .subtitle{ color: var(--muted); }
+    html[data-theme="dark"] .card{ background: var(--card); border-color: var(--card-border); }
+    html[data-theme="dark"] .tag{
+      background: var(--pill); color: var(--pill-text); border-color:#3A3760;
+    }
+    html[data-theme="dark"] .social a{
+      background: rgba(45,44,68,0.75); border-color:#34324A; box-shadow:0 10px 22px rgba(0,0,0,0.35);
+    }
+    html[data-theme="dark"] .social a:hover{ background:#3A3760; transform: translateY(-2px); }
+    html[data-theme="dark"] .cta{
+      background: var(--accent); color: var(--accent-text);
+      box-shadow: 0 16px 32px rgba(185,172,241,0.35);
+    }
+    html[data-theme="dark"] .cta:hover{ background:#C6BBF4; box-shadow:0 20px 36px rgba(185,172,241,0.45); }
+
+    /* ===== 卡片文字與標題位置 ===== */
+    #work .card {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;   /* 標題靠上 */
+      align-items: stretch;
+      padding-top: 24px;             /* 上方間距一致 */
+    }
+
+    #work .card h3 {
+      margin-top: 12px;              /* 與 eyebrow 間距 */
+      margin-bottom: 8px;            /* 與內文間距 */
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    /* 內文緊接標題 */
+    #work .card p {
+      text-align: left;
+      text-justify: inter-word;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    /* ===== Eyebrow (上方小分類) ===== */
+    #work .eyebrow {
+      font-size: 14px;
+      font-weight: 600;
+      color: #6d5bd0;
+      margin-bottom: 2px;
+    }
+
+    /* ===== Tag 設計（回到原本膠囊樣式） ===== */
+    .tags {
+      display: flex;
+      flex-wrap: nowrap;             /* 強制單行顯示 */
+      gap: 8px;
+      margin-top: auto;              /* 永遠貼在卡片底部 */
+      overflow: hidden;
+    }
+
+    .tag {
+      font-size: 12px;
+      padding: 7px 12px;
+      background: var(--pill);
+      color: var(--pill-text);
+      border-radius: 999px;
+      border: 1px solid rgba(154,134,214,.38);
+      white-space: nowrap;           /* 防止換行 */
+      box-shadow: 0 6px 14px rgba(154,134,214,.10);
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .tag:hover {
+      transform: translateY(-1px);
+      background: var(--lav-100);
+    }
+
+    /* === 確保所有卡片同高 === */
+    #work.grid {
+      align-items: stretch;
+    }
+
+    /* === 第二張卡特別微調 tag 字體大小（避免超出一行） === */
+    #work .card:nth-child(2) .tag {
+      font-size: 11.5px;
+      padding: 6px 10px;
+    }
+
+    /* === 總結句重新設計 === */
+    .section-summary {
+      color: var(--muted);
+      margin: 52px auto 0;
+      max-width: 720px;
+      font-size: 15px;
+      line-height: 1.7;
+      text-align: center;
+     border-top: 1px solid rgba(154,134,214,0.18);  /* 只留一條細分隔線 */
+     padding-top: 28px;
+      background: none; /* 💡 移除背景色 */
+    }
+
+    .section-summary em {
+      color: var(--lav-500);
+      font-style: normal;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top bar -->
+    <header>
+      <div class="brand">
+        <!-- ✅ 新 Logo：Carol Hou（SVG 版） -->
+        <a href="/" class="brand" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+          <svg width="180" height="50" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .logo-text {
+                font-family: 'Parisienne', cursive;
+                fill: #9179f3; /* Lavender */
+                font-size: 40px;
+                paint-order: stroke;
+                stroke: #D8CBA8;        /* Soft Gold outline */
+                stroke-width: 0.3px;
+                filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.08));
+              }
+            </style>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="logo-text">
+              Te-Jou Hou
+            </text>
+          </svg>
+        </a>
+      </div>
+      <div style="display:flex; align-items:center;">
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Me</a>
+          <a href="projects.html">Projects</a>
+          <a href="blog.html">Blogs</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">🌓</button>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="avatar" id="avatar">
+        <img src="images/about/me.jpeg" alt="Your avatar" />
+        <!-- <span>Y</span> -->
+      </div>
+
+      <h1>
+        Hi, I’m Te-Jou (Carol) Hou —<br>
+        a data scientist who brings clarity, trust, and purpose to data-driven decisions.
+      </h1>
+      <p class="subtitle">
+        Combining audit insight and machine learning, I design intelligent, transparent systems that transform complex information into confident, real-world decisions.
+      </p>
+
+      <div class="social">
+        <!-- <a href="https://medium.com/" target="_blank" rel="noopener"> -->
+          <!-- <img src="icons/medium.png" alt="Medium" class="icon"> Medium -->
+        <!-- </a> -->
+        <a href="https://github.com/CarolHou-tj" target="_blank" rel="noopener">
+          <img src="icons/github.png" alt="GitHub" class="icon"> GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/te-jou-hou/" target="_blank" rel="noopener">
+          <img src="icons/linkedin.png" alt="LinkedIn" class="icon"> LinkedIn
+        </a>
+      </div>
+
+      <a class="cta" href="https://calendar.app.google/b6TgtxLnQYf3bTYy5">
+        Schedule a Meeting
+      </a>
+    </section>
+
+    <!-- Skills / Strengths Section -->
+    <section id="strengths" class="container" style="max-width: 1100px; margin: 0 auto; text-align: center;">
+
+      <!-- 區塊標題 -->
+      <h2 class="section-title">What I Bring to the Table</h2>
+
+      <!-- 三張小卡 -->
+      <section id="work" class="grid">
+
+        <!-- 1️⃣ Risk-Aware AI -->
+        <article class="card static-card">
+          <div>
+            <div class="eyebrow">🧭 <span>Risk-Aware AI</span></div>
+            <h3>Trustworthy & Explainable Systems</h3>
+            <p>
+              Bridging my background in audit and data science, I design trustworthy,
+              risk-aware AI systems that balance accuracy, interpretability, and transparency —
+              ensuring that even complex models remain responsible, accountable, and explainable in context.
+            </p>
+            <div class="tags">
+              <span class="tag">Risk</span>
+              <span class="tag">Explainable AI</span>
+              <span class="tag">Integrity</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2️⃣ Data-to-Decision -->
+        <article class="card static-card">
+          <div>
+            <div class="eyebrow">📊 <span>Data-to-Decision</span></div>
+            <h3>From Models to Meaningful Insights</h3>
+            <p>
+              Every dataset tells a story — my goal is to make those stories actionable.
+              From predictive modeling to user-centered analytics, I turn complex data into clear, data-driven decisions.
+              At IDX Exchange, I boosted model R² from 0.27 to 0.87 and automated a real estate valuation pipeline;
+              in my Airbnb DC app, I designed an interactive geospatial product that helps users find optimal stays;
+              and in SAS Hackathon, I applied uplift modeling to predict donor response and optimize fundraising ROI.
+            </p>
+            <div class="tags">
+              <span class="tag">Modeling</span>
+              <span class="tag">Business Impact</span>
+              <span class="tag">Automation</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3️⃣ Adaptive Problem Solver -->
+        <article class="card static-card">
+          <div>
+            <div class="eyebrow">⚙️ <span>Adaptive Problem Solver</span></div>
+            <h3>Innovation Through Learning</h3>
+            <p>
+              Curious and tool-driven, I quickly master new AI frameworks and domain knowledge to solve complex problems.
+              I’ve streamlined model pipelines and uplift predictions to deliver faster, more accurate insights;
+              and at EY, I redesigned semiconductor cost analyses into an intuitive, process-based workflow —
+              cutting review time and error rates while improving transparency and team efficiency.
+            </p>
+            <div class="tags">
+              <span class="tag">AI Tools</span>
+              <span class="tag">Learning</span>
+              <span class="tag">Innovation</span>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- 總結句 -->
+      <p class="section-summary">
+        Bridging data science, audit insight, and real-world problem solving — 
+        I build <em>trustworthy</em>, <em>intelligent</em> systems that turn complex data into confident, actionable decisions.
+      </p>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Te-Jou(Carol) Hou — Built with plain HTML/CSS/JavaScript. <a href="#top">Back to top</a>
+    </footer>
+  </div>
+
+  <script>
+    // 年份自動更新
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 主題切換（延用原本行為）
+    const btn = document.getElementById('themeBtn');
+    btn.addEventListener('click', () => {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light'
+                 : html.getAttribute('data-theme') === 'light' ? null : 'dark';
+      if(next){ html.setAttribute('data-theme', next); }
+      else { html.removeAttribute('data-theme'); }
+    });
+  </script>
+</body>
+</html>

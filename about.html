@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>About — Your Name</title>
+  <meta name="description" content="About me, experience, education, current work, research, awards, and skills."/>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Lavender Botanical Theme
+       （排版與文案維持不變）
+    ============================*/
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+
+    :root{
+      /* Cream base + Lavender + Sage */
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+
+      --lav-50:#F2EDF9; --lav-100:#E5DBF3; --lav-200:#D5C7EE;
+      --lav-300:#C3B2E7; --lav-400:#AE9BDE; --lav-500:#9A86D6; --lav-600:#8A77C7;
+
+      --sage-300:#C1DBD0; --sage-400:#ABCDBF;
+
+      --text-deep:#2C2A38; --text-muted:#6B6A74;
+
+      --card:#FFFFFFCC;      /* 微玻璃感 */
+      --card-border:#E8E2F3;
+
+      --pill-bg:#EFEAFA; --pill-text:#5E519D;
+
+      --btn:#9A86D6; --btn-text:#ffffff; --btn-hover:#A996DC;
+
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+      --ring:0 0 0 6px rgba(154,134,214,.18);
+
+      /* 向後相容原變數 */
+      --bg:var(--cream);
+      --text:var(--text-deep);
+      --muted:var(--text-muted);
+      --brand:var(--lav-500);
+      --brand2:#f59e0b; /* 原檔僅少量點綴，保留 */
+      --line:#E6E3F1;
+      --pill-bg:var(--pill-bg);
+      --pill-text:var(--pill-text);
+      --accent:var(--btn);
+      --accent-text:var(--btn-text);
+    }
+
+    /* 自動 Dark 模式（也會被手動切換覆寫） */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --cream:#121219; --cream-2:#181826;
+
+        --text:#F4F1FF; --muted:#C6C3D6;
+        --bg:var(--cream);
+
+        --card:rgba(28,28,44,.86);
+        --card-border:#2F2D43;
+
+        --pill-bg:#2B2940; --pill-text:#E4DEFF;
+
+        --accent:#B9ACF1; --accent-text:#0F0E16;
+        --line:#2F2D43;
+
+        --ring:0 0 0 6px rgba(185,172,241,.28);
+        --shadow:0 14px 34px rgba(0,0,0,.45);
+      }
+    }
+
+    /* 手動切換（🌓） */
+    html[data-theme="light"]{
+      --cream:#F8F5EF; --cream-2:#F3EFE6;
+      --bg:var(--cream); --text:var(--text-deep); --muted:var(--text-muted);
+      --card:#FFFFFFCC; --card-border:#E8E2F3;
+      --pill-bg:#EFEAFA; --pill-text:#5E519D;
+      --accent:#9A86D6; --accent-text:#ffffff;
+      --line:#E6E3F1; --ring:0 0 0 6px rgba(154,134,214,.18);
+      --shadow:0 12px 30px rgba(57,40,98,.10);
+    }
+    html[data-theme="dark"]{
+      --cream:#121219; --cream-2:#181826;
+      --bg:var(--cream); --text:#F4F1FF; --muted:#C6C3D6;
+      --card:rgba(28,28,44,.86); --card-border:#2F2D43;
+      --pill-bg:#2B2940; --pill-text:#E4DEFF;
+      --accent:#B9ACF1; --accent-text:#0F0E16;
+      --line:#2F2D43; --ring:0 0 0 6px rgba(185,172,241,.28);
+      --shadow:0 14px 34px rgba(0,0,0,.45);
+    }
+
+    /* ===== Base / Background ===== */
+    body{
+      font-family:"Inter",ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text);
+      line-height:1.65;
+      background-image:
+        radial-gradient(1200px 600px at 85% -10%, rgba(210,199,240,0.35), transparent 60%),
+        radial-gradient(900px 500px at -10% 15%, rgba(171,205,191,0.28), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      min-height:100svh; overflow-x:hidden; position:relative;
+    }
+    /* 植物線條水印（內嵌SVG） */
+    body::before, body::after{
+      content:""; position:fixed; z-index:-1; pointer-events:none;
+      width:48vw; height:48vw; background-repeat:no-repeat; background-size:contain;
+      opacity:.18; filter:blur(.1px);
+    }
+    body::before{
+      left:-6vw; bottom:-6vw; transform:rotate(2deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'>\
+          <g fill='none' stroke='%239A86D6' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M60 380 C 80 300, 120 200, 170 110'/>\
+            <path d='M90 360 C 120 290, 150 220, 200 140'/>\
+            <path d='M110 330 c 18 -22, 40 -32, 60 -12'/>\
+            <path d='M140 280 c 26 -20, 58 -28, 76 -6'/>\
+            <path d='M160 240 c 20 -18, 48 -22, 66 -2'/>\
+            <path d='M145 205 c 12 -16, 30 -22, 42 -8'/>\
+          </g>\
+        </svg>");
+    }
+    body::after{
+      right:-8vw; top:-8vw; opacity:.16; transform:rotate(-6deg);
+      background-image:url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 420'>\
+          <g fill='none' stroke='%2397BEAF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'>\
+            <path d='M340 10 C 320 120, 300 210, 280 410'/>\
+            <path d='M330 80 c -22 20 -40 22 -62 -4'/>\
+            <path d='M310 150 c -30 18 -52 16 -70 -10'/>\
+            <path d='M300 220 c -28 16 -50 14 -68 -10'/>\
+            <path d='M290 290 c -24 14 -46 12 -64 -12'/>\
+          </g>\
+        </svg>");
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1150px; margin:0 auto; padding:24px}
+
+    /* ===== Header ===== */
+    header{display:flex; align-items:center; justify-content:space-between; padding:8px 0 20px}
+    .brand{display:inline-flex; align-items:center; gap:10px; font-weight:800}
+    .brand .logo{
+      width:26px; height:26px; border-radius:10px; display:grid; place-items:center;
+      color:#fff; background:linear-gradient(135deg, var(--lav-500), var(--sage-400));
+      box-shadow:0 6px 14px rgba(154,134,214,.25);
+    }
+    nav a{
+      margin-left:18px; opacity:.9; position:relative; padding:6px 0;
+    }
+    nav a::after{
+      content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px;
+      background:linear-gradient(90deg, transparent, var(--lav-400), transparent);
+      transform:scaleX(0); transform-origin:center; transition:transform .25s ease;
+    }
+    nav a:hover{opacity:1}
+    nav a:hover::after{transform:scaleX(1)}
+    .theme-toggle{
+      border:1px solid var(--card-border); background:#fff7; border-radius:999px;
+      padding:6px 10px; cursor:pointer; margin-left:12px; box-shadow:var(--shadow);
+      backdrop-filter:blur(6px)
+    }
+
+    /* ===== Page Title ===== */
+    .title-wrap{text-align:center; padding:6px 0 10px}
+    .eyemark{display:inline-flex; align-items:center; gap:6px; color:var(--lav-600); font-weight:800; letter-spacing:.3px}
+    .eyemark span{width:8px; height:8px; background:var(--lav-600); border-radius:2px; display:inline-block; transform:rotate(25deg)}
+    h1{
+      font-family:"Playfair Display",ui-serif,Georgia,"Times New Roman",serif;
+      font-size:clamp(28px,4vw,42px); line-height:1.15; margin:8px 0 6px; letter-spacing:.2px;
+    }
+    .subtitle{color:var(--muted); max-width:820px; margin:10px auto}
+
+    /* ===== CTA ===== */
+    .cta-top{display:flex; justify-content:center; margin:12px 0 4px}
+    .cta{
+      display:inline-flex; align-items:center; gap:10px; background:var(--accent); color:var(--accent-text);
+      padding:12px 18px; border-radius:999px; font-weight:800; box-shadow:0 12px 28px rgba(154,134,214,.35);
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .cta:hover{transform:translateY(-2px); background:var(--btn-hover); box-shadow:0 16px 32px rgba(154,134,214,.45)}
+
+    /* ===== Section Title ===== */
+    .section-title{
+      padding-left:18px; position:relative;
+      font-family:"Playfair Display",ui-serif,Georgia,serif;
+    }
+    .section-title::before{
+      content:""; position:absolute; left:0; top:8px; bottom:8px; width:1px; background:currentColor; opacity:.28;
+    }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0; /* 放在標題下方 */
+      width: 100%;
+      height: 1px;
+      background: var(--lav-500); /* 你的紫色線條 */
+      border-radius: 1px;
+      transform: none; /* 拿掉垂直置中 */
+    }
+    .section-title .muted{font-weight:700; color:var(--muted); font-size:14px; letter-spacing:.2px}
+
+    /* ===== Two Columns ===== */
+    .twocol{display:grid; gap:28px; margin-top:10px; grid-template-columns:repeat(1,minmax(0,1fr))}
+    @media(min-width:960px){ .twocol{ grid-template-columns: 1fr 1fr } }
+    .panel{
+      background:var(--card); border:1px solid var(--card-border);
+      border-radius:18px; box-shadow:var(--shadow); padding:20px; backdrop-filter:blur(6px);
+    }
+    .timeline{position:relative; margin-top:8px}
+    .item{position:relative; padding-left:28px; margin:18px 0}
+    .item::before{
+      content:""; position:absolute; left:10px; top:6px; width:10px; height:10px;
+      background:var(--lav-500); border-radius:999px; box-shadow:0 0 0 3px rgba(154,134,214,.22);
+    }
+    .item::after{content:""; position:absolute; left:14px; top:24px; bottom:-18px; width:2px; background:var(--line)}
+    .item:last-child::after{display:none}
+    .item .role{font-weight:800}
+    .item .org,.item .dur{color:var(--muted)}
+    .item .dur{font-size:13px}
+
+    /* 桌面版維持 hover */
+    /* Hover popover */
+    .item .hover-card{
+      position:absolute; left:calc(100% + 12px); top:0; width:min(420px, 70vw);
+      background:var(--bg); color:var(--text); border:1px solid var(--card-border);
+      box-shadow:var(--shadow); border-radius:14px; padding:14px; opacity:0; pointer-events:none;
+      transform:translateY(6px); transition:opacity .15s ease, transform .15s ease; z-index:30;
+    }
+    .item:hover .hover-card, .item:focus-within .hover-card{ opacity:1; transform:translateY(0); pointer-events:auto }
+    .item.open .hover-card{ opacity:1; transform:translateY(0); pointer-events:auto } /* mobile */
+    .hover-card h4{margin:0 0 6px; font-size:15px; font-weight:800}
+    .hover-card ul{margin:0; padding-left:18px}
+    .hover-card li{margin:6px 0; font-size:14px}
+
+    /* 手機版自動展開 hover-card */
+    @media (max-width: 768px) {
+      .item .hover-card {
+        position: relative;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+        border: none;
+        box-shadow: none;
+        padding: 8px 0 0 0;
+      }
+    }
+
+    /* ===== Resume sections ===== */
+    .section{margin-top:10px}
+    .resume-list{
+      background:var(--card); border:1px solid var(--card-border);
+      border-radius:16px; padding:18px; box-shadow:var(--shadow); backdrop-filter:blur(6px);
+    }
+    .entry{margin:14px 0 18px}
+    .entry .head{font-weight:900}
+    .entry .meta{color:var(--muted)}
+    .entry ul{margin:8px 0 0; padding-left:20px}
+    .entry li{margin:6px 0}
+
+    /* ===== Skills chips ===== */
+    .chips{display:flex; flex-wrap:wrap; gap:10px}
+    .chip{
+      display:inline-block; padding:7px 12px; border-radius:999px; background:var(--pill-bg); color:var(--pill-text);
+      font-size:12px; border:1px solid rgba(154,134,214,.38);
+      box-shadow:0 6px 14px rgba(154,134,214,.10); transition:transform .15s ease, background .2s ease;
+    }
+    .chip:hover{transform:translateY(-1px); background:var(--lav-100)}
+
+    footer{color:var(--muted); text-align:center; font-size:13px; padding:40px 0 10px}
+    a:focus-visible, button:focus-visible{outline:none; box-shadow:var(--ring); border-radius:12px}
+
+    /* Popover overflow 調整 */
+    @media(max-width:1100px){ .item .hover-card{ left:auto; right:0 } }
+
+    /* ===== Dark 視覺細節覆寫（背景更暗、標題更亮） ===== */
+    @media (prefers-color-scheme: dark){
+      body{
+        background-image:
+          radial-gradient(1200px 600px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+          radial-gradient(900px 500px at -10% 15%, rgba(151,190,175,0.16), transparent 60%),
+          linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+      }
+      body::before, body::after{opacity:.10}
+      h1, h2, h3{color:#F4F1FF}
+    }
+    html[data-theme="dark"] body{
+      background-image:
+        radial-gradient(1200px 600px at 85% -10%, rgba(138,119,199,0.22), transparent 60%),
+        radial-gradient(900px 500px at -10% 15%, rgba(151,190,175,0.16), transparent 60%),
+        linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    }
+    html[data-theme="dark"] body::before,
+    html[data-theme="dark"] body::after{opacity:.10}
+    html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3{color:#F4F1FF}
+
+    /* =========================
+       針對 Education / Experience / Current Work /
+       Research / Competitions / Hackathon /
+       Awards / Certification / Badges / Skills
+       移除邊框、底色、陰影 + 標題下方分隔線
+    =========================== */
+
+    /* 選取這六個區塊 */
+    #edu-h,
+    #xp-h,
+    #cw-h,
+    #rch-h,
+    #aw-h,
+    #sk-h {
+      position: relative;
+      padding-bottom: 30px;
+      margin-bottom: 18px;
+    }
+
+    /* 在標題下方加簡約分隔線 */
+    #edu-h::after,
+    #xp-h::after,
+    #cw-h::after,
+    #rch-h::after,
+    #aw-h::after,
+    #sk-h::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+       var(--lav-400) 30%,
+        var(--lav-500) 50%,
+        var(--lav-400) 70%,
+        transparent 100%
+      );
+      opacity: 0.6;
+    }
+
+    /* 對應這些 section 的卡片外觀移除底色、邊框、陰影 */
+    #edu-h ~ .timeline,
+    #xp-h ~ .timeline,
+    #cw-h ~ .resume-list,
+    #rch-h ~ .resume-list,
+    #aw-h ~ .resume-list,
+    #sk-h ~ .resume-list,
+    #edu-h:has(+ .timeline),
+    #xp-h:has(+ .timeline) {
+      background: transparent !important;
+     border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+    }
+
+    /* panel 容器 */
+    .panel[aria-labelledby="edu-h"],
+    .panel[aria-labelledby="xp-h"] {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+    }
+
+    /* timeline items */
+    .panel[aria-labelledby="edu-h"] .item,
+    .panel[aria-labelledby="xp-h"] .item {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* resume-list 容器 */
+    #cw-h + .resume-list,
+    #rch-h + .resume-list,
+    #aw-h + .resume-list,
+    #sk-h + .resume-list {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+    }
+
+    /* 內部 entry 條目 */
+    #cw-h + .resume-list .entry,
+    #rch-h + .resume-list .entry,
+    #aw-h + .resume-list .entry,
+    #sk-h + .resume-list .entry {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* skill chips */
+    #sk-h + .resume-list .chip {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    /* 調整 Current Work、Research、Awards、Skills 標題大小 */
+    #cw-h,
+    #rch-h,
+    #aw-h,
+    #sk-h {
+      font-size: clamp(24px, 3vw, 32px); /* ⭐ 與 h2 相近的大小 */
+      font-weight: 700;                  /* 確保字重一致 */
+      line-height: 1.2;                  /* 避免太擠 */
+    }
+
+    /* ===== Timeline Base ===== */
+    .timeline {
+      position: relative;
+      margin-top: 8px;
+    }
+    .timeline .item {
+     position: relative;
+      padding-left: 28px;
+      margin: 20px 0;
+    }
+    .timeline .item::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      width: 10px;
+      height: 10px;
+      background: var(--lav-500);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(154,134,214,0.25);
+    }
+    .timeline .item::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 22px;
+      bottom: -20px;
+      width: 2px;
+      background: var(--card-border);
+    }
+    .timeline .item:last-child::after {
+      display: none;
+    }
+
+    /* ===== Education Styling ===== */
+    .panel[aria-labelledby="edu-h"] .item {
+      margin-bottom: 2rem;
+    }
+
+    .edu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 0.3rem;
+    }
+
+    .degree {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .date {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-left: 6px;
+    }
+
+    .school {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin: 0.25rem 0 0.6rem 0;
+      line-height: 1.4;
+      max-width: 98%;
+      letter-spacing: -0.01em;
+    }
+
+    .nowrap {
+      white-space: nowrap;
+    }
+
+    .coursework {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-left: 0.2rem;
+      color: var(--text);
+      max-width: 95%;
+    }
+    .coursework .label {
+      font-weight: 600;
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* ===== Experience Styling ===== */
+    .panel[aria-labelledby="xp-h"] .item {
+      margin-bottom: 1.8rem;
+    }
+
+    .role {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .org {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 2px 0 4px 0;
+    }
+
+    .dur {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ===== Mobile adjustments ===== */
+    @media (max-width: 768px) {
+      .timeline .item {
+        padding-left: 24px;
+        margin: 16px 0;
+      }
+      .timeline .item::before {
+        left: 4px;
+      }
+      .timeline .item::after {
+        left: 8px;
+      }
+    } 
+
+    /* Tighten spacing between section headings and content */
+    .section > h3.section-title {
+      margin-bottom: 0.5rem !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* Fix spacing for Education & Experience titles */
+    #edu-h,
+    #xp-h {
+      padding-bottom: 0 !important;  /* 原本是 30px，改小即可，建議 6–10px */
+    }
+
+    .brand svg {
+      transform: translateY(2px);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <!-- ✅ 新 Logo：Carol Hou（SVG 版） -->
+        <a href="/" class="brand" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+          <svg width="180" height="50" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+            <style>
+              .logo-text {
+                font-family: 'Parisienne', cursive;
+                fill: #9179f3; /* Lavender */
+                font-size: 40px;
+                paint-order: stroke;
+                stroke: #D8CBA8;        /* Soft Gold outline */
+                stroke-width: 0.3px;
+                filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.08));
+              }
+            </style>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" class="logo-text">
+              Te-Jou Hou
+            </text>
+          </svg>
+        </a>
+      </div>
+      <div style="display:flex;align-items:center;">
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="about.html">About Me</a>
+          <a href="projects.html">Projects</a>
+          <a href="blog.html">Blogs</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">🌓</button>
+      </div>
+    </header>
+
+    <!-- Title -->
+    <div class="title-wrap">
+      <div class="eyemark"><span></span><span></span><span></span> <strong>About Me</strong></div>
+      <h1>Awesome Journey</h1>
+      <p class="subtitle">Education, experience, and a resume-style overview of current work, research, awards, and skills.</p>
+
+      <!-- CTA moved here -->
+      <div class="cta-top">
+        <a href="https://drive.google.com/file/d/1AvSeMFVdi60jlQoFxwg5yRN4GB4RPDAv/view?usp=sharing"
+           class="cta"
+           target="_blank"
+           rel="noopener noreferrer">
+           <i class="fa-solid fa-download"></i> Download Resume
+        </a>
+      </div>
+    </div>
+
+    <!-- Two Columns -->
+    <div class="twocol">
+      <!-- Education -->
+      <section class="panel" aria-labelledby="edu-h">
+        <h2 id="edu-h" class="section-title">Education <span class="muted">formal training</span></h2>
+        <div class="timeline">
+          <div class="item">
+            <div class="edu-header">
+              <div class="degree">
+                M.S. in Data Science <span class="muted">(GPA: 3.88/4.00)</span>
+              </div>
+              <div class="date">Expected Dec 2025</div>
+            </div>
+            <div class="school">
+              <span class="nowrap">
+                American University, College of Arts and Sciences · Washington, D.C.
+              </span>
+            </div>
+            <div class="coursework">
+              <span class="label">Relevant Coursework:</span>
+              Statistical Programming in R, Data Science, Regression, Statistical Machine Learning, Artificial Intelligence, Introduction to Data Mining, Machine Learning/Cybersecurity
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="edu-header">
+              <div class="degree">B.B.A. in Accounting</div>
+              <div class="date">June 2019</div>
+            </div>
+            <div class="school">Soochow University, School of Business · Taipei, Taiwan</div>
+            <div class="coursework">
+              <span class="label">Relevant Coursework:</span>
+              Statistics, Calculus
+            </div>
+          </div>
+        </div>
+      </section>  
+
+      <!-- Experience -->
+      <section class="panel" aria-labelledby="xp-h">
+        <h2 id="xp-h" class="section-title">Experience <span class="muted">roles & impact</span></h2>
+        <div class="timeline">
+          <div class="item" tabindex="0" data-mobile-toggle>
+            <div class="role">Senior External Auditor</div>
+            <div class="org">PricewaterhouseCoopers (PwC) ⎜ Hsinchu, Taiwan</div>
+            <div class="dur">Sep 2021 – May 2022</div>
+            <div class="hover-card" role="dialog" aria-label="PricewaterhouseCoopers (PwC) details">
+              <h4>Key Contributions</h4>
+              <ul>
+                <li>Audited clients in the semiconductor, biotech, and tech industries, ensuring data integrity across large financial databases.</li>
+                <li>Redesigned and rebuilt audit workpapers for two companies, improving data traceability and audit workflow efficiency.</li>
+                <li>Applied Excel-based analytics (pivot tables, VLOOKUP, statistical sampling) to uncover patterns, identify fraud risks, and validate financial accuracy.</li>
+                <li>Collaborated cross-functionally with client IT and finance teams to align audit findings with operational insights.</li>
+                <li>This experience sparked my interest in data-driven decision-making, motivating my transition into data science and AI.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="item" tabindex="0" data-mobile-toggle>
+            <div class="role">External Auditor</div>
+            <div class="org">Ernst & Young (EY) ⎜ Hsinchu, Taiwan</div>
+            <div class="dur">Sep 2019 – Sep 2021</div>
+            <div class="hover-card" role="dialog" aria-label="Wildfire research details">
+              <h4>Key Contributions</h4>
+              <ul>
+                <li>Served clients in semiconductor, traditional manufacturing, and tech sectors to test internal controls and assess reporting accuracy.</li>
+                <li>Redesigned semiconductor cost analysis templates after studying manufacturing workflows and visualizing processes to clarify production stages — accelerating testing, improving accuracy, and enhancing team efficiency.</li>
+                <li>Created a standardized meeting-note template later adopted team-wide, streamlining communication and documentation.</li>
+                <li>Retrieved and analyzed large datasets from Oracle / SAP ERP systems, enhancing anomaly detection and audit precision.</li>
+                <li>Developed strong problem-solving and collaboration skills, coordinating with non-finance departments to validate complex processes.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Current Work -->
+    <section class="section" aria-labelledby="cw-h">
+      <h3 id="cw-h" class="section-title">Current Work <span class="muted">active projects</span></h3>
+      <div class="resume-list">
+        <div class="entry">
+          <div class="head">Data Science Intern – IDX Exchange <span class="meta">| (Sep 2025 – Present)</span></div>
+          <ul>
+            <li>Built an open-data map surfacing conversion opportunities with zoning overlays, cost modules, and sustainability scoring.</li>
+            <li>Integrated Mapbox + Notion + Supabase/n8n for data flows, and drafted evaluation metrics for feasibility.</li>
+            <li>Designed a lightweight workflow for regulatory radar and grant suggestions (IRA 45L, HID, DC Green Building Act).</li>
+          </ul>
+        </div>
+        <div class="entry">
+          <div class="head">Research Assistant – Wildfire Detection Project  <span class="meta">| (May 2025 – Ongoing)</span></div>
+          <ul>
+            <li>Reusable utilities for CatBoost/sklearn: CV, feature importance, PVC, error analysis, and artifact export.</li>
+            <li>Standardized data splits to prevent leakage; added KNN-20 neighbor-price feature builders.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research / Competitions / Hackathon -->
+    <section class="section" aria-labelledby="rch-h">
+      <h3 id="rch-h" class="section-title">Competitions / Hackathon <span class="muted">impact & learning</span></h3>
+      <div class="resume-list">
+        <div class="entry">
+          <div class="head">
+            SAS Hackathon 2025 — Student Individual Track / SAS Institute <span class="meta">| Global AI & Data Science Competition</span>
+          </div>
+          <ul>
+            <li>Developed a two-stage uplift modeling pipeline for a simulated fundraising campaign of 60,000 donors to maximize operating surplus.</li>
+            <li>Performed feature selection and model optimization using <em>XGBoost</em> to predict donation probability, expected amount, and uplift impact for targeted outreach.</li>
+            <li>Applied the model to classify donor segments (<em>Persuadables</em>, <em>Sure Things</em>, <em>Lost Causes</em>, <em>Sleeping Dogs</em>) and identify optimal contact strategies.</li>
+            <li>Ranked Top 26 of 156 participants (Top 20%), demonstrating analytical rigor and strategic modeling for ROI-driven fundraising decisions.</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <div class="head">
+            AI-Driven Sustainable Communities Challenge — Veloric Center, American University <span class="meta">| Fall 2025</span>
+          </div>
+          <ul>
+            <li>Designed and built the AI-powered “D.C. Building Conversion” prototype, integrating GPT, Mapbox, Notion, and n8n to automate feasibility assessment and concept generation for office-to-residential conversions.</li>
+            <li>Engineered a workflow automation system for zoning review, sustainability scoring, and risk evaluation, transforming complex pre-development analysis into a user-friendly web dashboard.</li>
+            <li>Co-led the live pitch and prototype demo, showcasing innovation and social impact in adaptive reuse; recognized by judges for AI integration and community relevance.</li>
+          </ul>
+        </div>
+
+        <!-- <div class="entry">-->
+          <!-- <div class="head">Data4Good Challenge <span class="meta">| 2025</span></div>-->
+          <!-- <ul>-->
+            <!-- <li>Developed a custom weighted confusion matrix aligned to cost-based priorities; documented assumptions and trade-offs.</li>-->
+          <!-- /ul>-->
+        <!-- </div>-->
+      </div>
+    </section>
+
+    <!-- Awards / Certification / Badges -->
+    <section class="section" aria-labelledby="aw-h">
+      <h3 id="aw-h" class="section-title">
+        Awards / Certification / Badges <span class="muted">recognition</span>
+      </h3>
+
+      <div class="resume-list">
+        <div class="entry">
+          <ul>
+            <li>Hanna Miriam Sandler Textbook Award — Department of Mathematics and Statistics, American University <span class="meta">| Apr 2025</span></li>
+            <li>NVIDIA DLI — Accelerating End-to-End Data Science Workflows <span class="meta">| 2025</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Skills -->
+    <section class="section" aria-labelledby="sk-h">
+      <h3 id="sk-h" class="section-title">Skills <span class="muted">what I work with</span></h3>
+      <div class="resume-list">
+    
+          <div class="entry">
+            <div class="head">Programming & Workflow</div>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">R</span><span class="chip">SQL</span>
+              <span class="chip">Git / GitHub</span><span class="chip">VS Code</span>
+              <span class="chip">RStudio</span><span class="chip">Jupyter</span><span class="chip">Colab</span>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="head">Data Processing & Analysis</div>
+            <div class="chips">
+              <span class="chip">API & Web Scraping</span><span class="chip">Data Wrangling</span>
+              <span class="chip">tidyverse</span><span class="chip">pandas</span>
+              <span class="chip">Workflow Automation</span><span class="chip">broom</span><span class="chip">scikit-learn</span>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="head">Machine Learning & AI</div>
+            <div class="chips">
+              <span class="chip">Feature Engineering</span><span class="chip">Hyperparameter Tuning</span>
+              <span class="chip">Model Evaluation</span><span class="chip">Uplift Modeling</span>
+              <span class="chip">Class Imbalance (SMOTE)</span>
+              <span class="chip">Logistic Regression</span><span class="chip">Random Forest</span>
+              <span class="chip">CatBoost</span><span class="chip">CNN</span>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="head">Deep Learning & NLP</div>
+            <div class="chips">
+              <span class="chip">TensorFlow</span><span class="chip">Text Analysis</span>
+              <span class="chip">Sentiment Modeling</span><span class="chip">tidytext</span><span class="chip">nltk</span>
+            </div>
+          </div>
+      
+          <div class="entry">
+            <div class="head">Visualization & Reporting</div>
+            <div class="chips">
+              <span class="chip">ggplot2</span><span class="chip">Matplotlib</span><span class="chip">Seaborn</span>
+              <span class="chip">Tableau</span><span class="chip">leaflet</span><span class="chip">tmap</span>
+              <span class="chip">Shiny</span><span class="chip">Quarto</span><span class="chip">R Markdown</span><span class="chip">Excel</span>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="head">Tools & Collaboration</div>
+            <div class="chips">
+              <span class="chip">Streamlit</span><span class="chip">Mapbox</span>
+              <span class="chip">Notion</span><span class="chip">n8n</span>
+              <span class="chip">Ollama</span>
+              <span class="chip">Teamwork</span><span class="chip">Communication</span>
+              <span class="chip">Problem Solving</span><span class="chip">Stakeholder Alignment</span>
+            </div>
+         </div>
+      </div>
+    </section>
+
+    <footer>© <span id="year"></span> Te-Jou(Carol) Hou — About</footer>
+  </div>
+
+  <script>
+    // 年份
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // 主題切換（跟首頁一致：跟隨系統 → 暗 → 亮）
+    document.getElementById('themeBtn').addEventListener('click',()=>{
+      const html=document.documentElement;
+      const next=html.getAttribute('data-theme')==='dark'?'light'
+               : html.getAttribute('data-theme')==='light'?null:'dark';
+      if(next){html.setAttribute('data-theme',next)} else {html.removeAttribute('data-theme')}
+    });
+    // 手機：點擊 Experience 項目可展開/收起 hover-card
+    const items=[...document.querySelectorAll('[data-mobile-toggle]')];
+    items.forEach(it=>{
+      it.addEventListener('click', ()=>{
+        if(matchMedia('(max-width: 960px)').matches){ it.classList.toggle('open'); }
+      });
+    });
+  </script>
+</body>
+</html>
